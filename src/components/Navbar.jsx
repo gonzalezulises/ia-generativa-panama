@@ -5,10 +5,10 @@ import { TecnasaLogoCompact } from './TecnasaLogo';
 
 const navItems = [
   { label: 'Inicio', href: '#hero' },
+  { label: 'Demos', href: '#demos' },
   { label: 'Fundamentos', href: '#fundamentals' },
   { label: 'Timeline', href: '#timeline' },
   { label: 'Panamá', href: '#panama-map' },
-  { label: 'Estadísticas', href: '#stats' },
   { label: 'Casos', href: '#cases' },
 ];
 
@@ -51,13 +51,6 @@ export default function Navbar() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
               </a>
             ))}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn-primary text-sm"
-            >
-              Regístrate
-            </motion.button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -93,14 +86,6 @@ export default function Navbar() {
                   {item.label}
                 </motion.a>
               ))}
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: navItems.length * 0.1 }}
-                className="mt-4 btn-primary"
-              >
-                Regístrate
-              </motion.button>
             </div>
           </motion.div>
         )}
