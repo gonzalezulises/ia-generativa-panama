@@ -1,0 +1,171 @@
+<project_specification>
+  <project_name>IA Generativa Panamá - Landing Page Inmersiva</project_name>
+
+  <overview>
+    Página web de alto impacto visual que demuestra los fundamentos de la IA Generativa y su impacto en Panamá.
+    Incluye demos interactivas de tokenización, atención y generación de LLMs, timeline evolutivo de la IA,
+    mapa interactivo de Panamá con casos de uso por sector, y estadísticas animadas del ecosistema local.
+    Basado en el reporte de investigación "Fundamentos de la IA Generativa: Impacto y oportunidades para Panamá".
+  </overview>
+
+  <technology_stack>
+    <frontend>
+      <framework>React 18 + Vite</framework>
+      <styling>Tailwind CSS 4.x con tema personalizado</styling>
+      <animations>Framer Motion</animations>
+      <icons>Lucide React</icons>
+      <fonts>Inter (body) + Space Grotesk (headings)</fonts>
+    </frontend>
+    <design_system>
+      <palette>
+        <primary>Neon Cyan (#00f5ff)</primary>
+        <secondary>Neon Purple (#bf00ff)</secondary>
+        <accent>Neon Pink (#ff00a8)</accent>
+        <success>Neon Green (#00ff88)</success>
+        <info>Neon Blue (#0066ff)</info>
+        <background>Slate 950 (#0a0a1a)</background>
+      </palette>
+      <effects>
+        <glassmorphism>backdrop-blur + borders semitransparentes</glassmorphism>
+        <gradients>Linear y radial con colores neón</gradients>
+        <glows>Box-shadow con colores neón</glows>
+        <particles>Canvas animado con red neuronal</particles>
+      </effects>
+    </design_system>
+  </technology_stack>
+
+  <feature_count>45</feature_count>
+
+  <core_features>
+    <hero_section>
+      - Red neuronal animada con Canvas
+      - Efecto typewriter en subtítulo
+      - Estadísticas flotantes con glassmorphism
+      - Indicador de scroll animado
+      - Gradientes de fondo dinámicos
+    </hero_section>
+
+    <llm_demo_section>
+      - Tokenizador interactivo en tiempo real
+      - Visualización de atención entre palabras
+      - Demo de generación token por token con probabilidades
+      - 6 conceptos explicados (tokenización, atención, generación, contexto, alucinaciones, RAG)
+      - Selector de conceptos con tarjetas interactivas
+    </llm_demo_section>
+
+    <timeline_section>
+      - Timeline vertical animado 2014-2026
+      - 6 hitos históricos (GANs, Transformers, GPT-3, ChatGPT, Multimodal, Agéntico)
+      - Scroll progress indicator
+      - Tarjetas con hover effects
+      - Íconos y colores únicos por hito
+    </timeline_section>
+
+    <panama_map_section>
+      - Mapa SVG interactivo de Panamá
+      - 6 sectores con hotspots (Logística, Finanzas, Salud, Gobierno, Retail, Educación)
+      - Tarjetas de detalle por sector con casos reales
+      - Indicadores de madurez (escala 1-5)
+      - Animaciones de pulso en hotspots
+    </panama_map_section>
+
+    <stats_section>
+      - 6 estadísticas animadas con contadores
+      - Íconos por categoría
+      - Barras de progreso para ratios
+      - Efecto de aparición al scroll
+    </stats_section>
+
+    <cases_section>
+      - 4 casos de uso verificables (Jetour, ISJUP-IA, CSS Radiología, Banca Digital)
+      - Tarjetas expandibles con detalles
+      - Métricas de impacto destacadas
+      - CTA para consultoría
+    </cases_section>
+
+    <navigation>
+      - Navbar con scroll effect (transparente → glass)
+      - Menú móvil animado
+      - Logo con gradiente
+      - Smooth scroll a secciones
+    </navigation>
+
+    <footer>
+      - Newsletter signup
+      - Links organizados por categoría
+      - Social links
+      - Back to top button
+    </footer>
+  </core_features>
+
+  <data_sources>
+    <primary>
+      - Reporte "Fundamentos de la IA Generativa: Impacto y oportunidades para Panamá"
+      - Estudio Elemente (n=230 organizaciones, Nov 2025)
+      - Stanford AI Index 2024
+      - Check Point Security Report
+    </primary>
+    <cases>
+      - Jetour/Petroautos: Chatbot con 9.8% conversión
+      - ISJUP-IA: Asistente judicial con RAG
+      - CSS: Tomógrafos con IA
+      - Banca Digital: Detección de fraude
+    </cases>
+    <statistics>
+      - Madurez IA: 2.3/5.0
+      - Ataques semanales: 2,488/org
+      - Data Centers: 14
+      - Inversión global IA: $109.1B
+      - Adopción global: 78%
+      - Sin gobernanza: 46%
+    </statistics>
+  </data_sources>
+
+  <file_structure>
+    /src
+      /components
+        - Navbar.jsx (navegación responsive)
+        - Hero.jsx (hero con partículas)
+        - LLMDemo.jsx (demos interactivas)
+        - Timeline.jsx (evolución IA)
+        - PanamaMap.jsx (mapa interactivo)
+        - Stats.jsx (estadísticas animadas)
+        - Cases.jsx (casos de uso)
+        - Footer.jsx (pie de página)
+      /data
+        - content.js (datos del reporte)
+      /hooks
+        - (hooks personalizados si necesario)
+      App.jsx
+      main.jsx
+      index.css (Tailwind + estilos custom)
+    /public
+      - favicon.svg
+    index.html
+    vite.config.js
+  </file_structure>
+
+  <implementation_notes>
+    <performance>
+      - Canvas para partículas (no librerías pesadas)
+      - Lazy loading implícito con Framer Motion viewport triggers
+      - Build optimizado: 386KB JS gzipped a 121KB
+    </performance>
+    <accessibility>
+      - Semántica HTML5
+      - ARIA labels en botones de iconos
+      - Contraste adecuado con colores neón sobre fondo oscuro
+    </accessibility>
+    <responsive>
+      - Mobile-first con Tailwind breakpoints
+      - Menú hamburguesa en móvil
+      - Grid adaptativo para tarjetas
+    </responsive>
+  </implementation_notes>
+
+  <commands>
+    <development>npm run dev</development>
+    <build>npm run build</build>
+    <preview>npm run preview</preview>
+  </commands>
+</project_specification>
