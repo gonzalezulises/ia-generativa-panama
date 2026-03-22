@@ -28,17 +28,7 @@ const NetworkGraph = ({ activeSector, onSectorHover }) => {
     { id: 'education', x: 350, y: 280, label: 'Educación', color: '#06B6D4' },      // Ascella (ζ) - base
   ];
 
-  // Connections forming the Sagittarius teapot asterism
-  const connections = [
-    [0, 1], // Spout line
-    [1, 2], // Spout to lid
-    [2, 3], // Lid to handle top
-    [3, 4], // Handle curve
-    [4, 5], // Handle to base
-    [5, 0], // Base to spout (bottom of teapot)
-    [1, 5], // Internal: spout top to base
-    [2, 5], // Internal: lid to base
-  ];
+  // No connection lines - just constellation points
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -74,45 +64,6 @@ const NetworkGraph = ({ activeSector, onSectorHover }) => {
     const animate = () => {
       time += 0.01;
       ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
-
-      // Draw connections between sector nodes
-      connections.forEach(([i, j]) => {
-        const from = sectorNodes[i];
-        const to = sectorNodes[j];
-        const isActive = activeSector === from.id || activeSector === to.id;
-
-        // Animated pulse along the line
-        const gradient = ctx.createLinearGradient(from.x, from.y, to.x, to.y);
-        const pulsePos = (Math.sin(time * 2 + i) + 1) / 2;
-
-        if (isActive) {
-          gradient.addColorStop(0, 'rgba(0, 180, 216, 0.8)');
-          gradient.addColorStop(pulsePos, 'rgba(0, 180, 216, 1)');
-          gradient.addColorStop(1, 'rgba(0, 180, 216, 0.8)');
-        } else {
-          gradient.addColorStop(0, 'rgba(0, 180, 216, 0.15)');
-          gradient.addColorStop(1, 'rgba(0, 180, 216, 0.15)');
-        }
-
-        ctx.beginPath();
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = isActive ? 2 : 1;
-        ctx.moveTo(from.x, from.y);
-        ctx.lineTo(to.x, to.y);
-        ctx.stroke();
-
-        // Draw moving data packets on active connections
-        if (isActive) {
-          const packetPos = (time * 0.5 + i * 0.3) % 1;
-          const px = from.x + (to.x - from.x) * packetPos;
-          const py = from.y + (to.y - from.y) * packetPos;
-
-          ctx.beginPath();
-          ctx.arc(px, py, 3, 0, Math.PI * 2);
-          ctx.fillStyle = '#00B4D8';
-          ctx.fill();
-        }
-      });
 
       // Draw floating particles
       particles.forEach((particle, i) => {
