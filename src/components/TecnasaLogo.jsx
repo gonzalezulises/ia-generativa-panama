@@ -1,4 +1,4 @@
-// Tecnasa U Logo Component - Using actual logo image
+// Tecnasa U Logo Component - Using actual logo image with transparent background effect
 export default function TecnasaLogo({ className = "", size = "default" }) {
   const sizes = {
     small: { width: 120 },
@@ -13,7 +13,11 @@ export default function TecnasaLogo({ className = "", size = "default" }) {
       src="/logo-tecnasa.jpg"
       alt="Tecnasa U Learning Centers"
       className={className}
-      style={{ width, height: 'auto' }}
+      style={{
+        width,
+        height: 'auto',
+        mixBlendMode: 'lighten'
+      }}
     />
   );
 }
@@ -25,7 +29,11 @@ export function TecnasaLogoCompact({ className = "" }) {
       src="/logo-tecnasa.jpg"
       alt="Tecnasa U Learning Centers"
       className={className}
-      style={{ width: 140, height: 'auto' }}
+      style={{
+        width: 140,
+        height: 'auto',
+        mixBlendMode: 'lighten'
+      }}
     />
   );
 }
