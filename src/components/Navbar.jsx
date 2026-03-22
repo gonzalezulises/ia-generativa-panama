@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Brain, Sparkles } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import { TecnasaLogoCompact } from './TecnasaLogo';
 
 const navItems = [
   { label: 'Inicio', href: '#hero' },
@@ -34,14 +35,8 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
-          <a href="#hero" className="flex items-center gap-3 group">
-            <div className="relative">
-              <Brain className="w-8 h-8 text-primary group-hover:text-primary-dark transition-colors" />
-              <Sparkles className="w-4 h-4 text-accent absolute -top-1 -right-1 animate-pulse" />
-            </div>
-            <span className="font-display font-bold text-xl text-secondary">
-              IAG 101
-            </span>
+          <a href="#hero" className="group">
+            <TecnasaLogoCompact />
           </a>
 
           {/* Desktop Nav */}
@@ -50,7 +45,7 @@ export default function Navbar() {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-sm text-text-light hover:text-primary transition-colors relative group"
+                className="text-sm text-gray-400 hover:text-primary transition-colors relative group"
               >
                 {item.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
@@ -68,7 +63,7 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-text-light hover:text-primary"
+            className="md:hidden p-2 text-gray-400 hover:text-primary"
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -93,7 +88,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                   onClick={() => setMobileOpen(false)}
-                  className="text-xl text-secondary hover:text-primary transition-colors"
+                  className="text-xl text-white hover:text-primary transition-colors"
                 >
                   {item.label}
                 </motion.a>

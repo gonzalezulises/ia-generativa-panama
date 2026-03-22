@@ -13,12 +13,12 @@ const iconMap = {
 };
 
 const colorMap = {
-  cyan: 'from-primary to-primary-dark',
-  pink: 'from-pink-400 to-pink-500',
-  purple: 'from-primary-dark to-accent',
-  green: 'from-emerald-400 to-emerald-500',
-  blue: 'from-blue-400 to-blue-500',
-  orange: 'from-orange-400 to-orange-500'
+  cyan: 'from-primary to-primary-light',
+  pink: 'from-pink-500 to-pink-400',
+  purple: 'from-primary-dark to-primary',
+  green: 'from-emerald-500 to-emerald-400',
+  blue: 'from-blue-500 to-blue-400',
+  orange: 'from-orange-500 to-orange-400'
 };
 
 function AnimatedNumber({ value, prefix = '', suffix = '', duration = 2 }) {
@@ -71,14 +71,14 @@ function StatCard({ stat, index }) {
       whileHover={{ scale: 1.02, y: -5 }}
       className="relative group"
     >
-      <div className="bg-white rounded-2xl p-6 h-full border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300">
+      <div className="glass rounded-2xl p-6 h-full hover:border-primary/30 transition-all duration-300">
         {/* Icon */}
         <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${gradient} mb-4`}>
           <Icon className="w-6 h-6 text-white" />
         </div>
 
         {/* Value */}
-        <div className="text-4xl font-display font-bold text-secondary mb-2">
+        <div className="text-4xl font-display font-bold text-white mb-2">
           <AnimatedNumber
             value={stat.value}
             prefix={stat.prefix}
@@ -87,18 +87,18 @@ function StatCard({ stat, index }) {
         </div>
 
         {/* Label */}
-        <h3 className="text-lg font-semibold text-secondary mb-2">
+        <h3 className="text-lg font-semibold text-gray-200 mb-2">
           {stat.label}
         </h3>
 
         {/* Description */}
-        <p className="text-sm text-text-light">
+        <p className="text-sm text-gray-400">
           {stat.description}
         </p>
 
         {/* Progress bar for ratio values */}
         {stat.max && (
-          <div className="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
+          <div className="mt-4 h-2 bg-white/5 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: `${(stat.value / stat.max) * 100}%` }}
@@ -115,7 +115,7 @@ function StatCard({ stat, index }) {
 
 export default function Stats() {
   return (
-    <section id="stats" className="py-24 relative bg-gray-50">
+    <section id="stats" className="py-24 relative bg-bg">
       {/* Background decoration */}
       <div className="blob-1 top-0 left-1/4" />
       <div className="blob-2 bottom-0 right-1/4" />
@@ -131,10 +131,10 @@ export default function Stats() {
           <span className="inline-block px-4 py-1 rounded-full bg-primary/10 text-sm text-primary font-medium mb-4">
             Datos de Impacto
           </span>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-secondary mb-4">
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
             Panamá en <span className="gradient-text">Números</span>
           </h2>
-          <p className="text-xl text-text-light max-w-2xl mx-auto">
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
             Estadísticas clave sobre el estado de la IA en el ecosistema panameño
           </p>
         </motion.div>
@@ -151,7 +151,7 @@ export default function Stats() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center text-sm text-text-light mt-12"
+          className="text-center text-sm text-gray-500 mt-12"
         >
           Fuentes: Estudio Elemente (n=230, Nov 2025), Stanford AI Index 2024, Check Point Security Report
         </motion.p>

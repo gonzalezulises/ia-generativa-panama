@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDown, Calendar, Clock, User, Video, Sparkles } from 'lucide-react';
+import TecnasaLogo from './TecnasaLogo';
 
-// Neural network animation component - Light theme
+// Neural network animation component
 function NeuralNetwork() {
   const canvasRef = useRef(null);
 
@@ -12,7 +13,7 @@ function NeuralNetwork() {
 
     const ctx = canvas.getContext('2d');
     const nodes = [];
-    const nodeCount = 40;
+    const nodeCount = 50;
 
     const resize = () => {
       canvas.width = canvas.offsetWidth * 2;
@@ -26,8 +27,8 @@ function NeuralNetwork() {
       nodes.push({
         x: Math.random() * canvas.offsetWidth,
         y: Math.random() * canvas.offsetHeight,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
         radius: Math.random() * 2 + 1,
         pulse: Math.random() * Math.PI * 2
       });
@@ -50,10 +51,10 @@ function NeuralNetwork() {
           const dy = other.y - node.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 120) {
-            const opacity = (1 - distance / 120) * 0.15;
+          if (distance < 150) {
+            const opacity = (1 - distance / 150) * 0.25;
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(79, 195, 247, ${opacity})`;
+            ctx.strokeStyle = `rgba(0, 180, 216, ${opacity})`;
             ctx.lineWidth = 0.5;
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(other.x, other.y);
@@ -64,7 +65,7 @@ function NeuralNetwork() {
         const pulseSize = Math.sin(node.pulse) * 0.3 + 1;
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius * pulseSize, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(79, 195, 247, ${0.4 + Math.sin(node.pulse) * 0.2})`;
+        ctx.fillStyle = `rgba(0, 180, 216, ${0.5 + Math.sin(node.pulse) * 0.3})`;
         ctx.fill();
       });
 
@@ -82,57 +83,14 @@ function NeuralNetwork() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full opacity-40"
+      className="absolute inset-0 w-full h-full opacity-50"
     />
   );
 }
 
-// Typewriter effect
-function TypewriterText({ texts, className }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentText, setCurrentText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const text = texts[currentIndex];
-    const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        if (currentText.length < text.length) {
-          setCurrentText(text.slice(0, currentText.length + 1));
-        } else {
-          setTimeout(() => setIsDeleting(true), 2000);
-        }
-      } else {
-        if (currentText.length > 0) {
-          setCurrentText(text.slice(0, currentText.length - 1));
-        } else {
-          setIsDeleting(false);
-          setCurrentIndex((currentIndex + 1) % texts.length);
-        }
-      }
-    }, isDeleting ? 50 : 100);
-
-    return () => clearTimeout(timeout);
-  }, [currentText, isDeleting, currentIndex, texts]);
-
-  return (
-    <span className={className}>
-      {currentText}
-      <span className="animate-pulse text-primary">|</span>
-    </span>
-  );
-}
-
 export default function Hero() {
-  const typewriterTexts = [
-    'tomar mejores decisiones',
-    'trabajar más rápido',
-    'automatizar procesos',
-    'transformar tu negocio'
-  ];
-
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-white to-gray-50">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-bg-dark">
       {/* Background layers */}
       <div className="absolute inset-0 bg-grid" />
       <NeuralNetwork />
@@ -143,15 +101,25 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-20">
-        {/* Badge */}
+        {/* Tecnasa Logo */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8"
+          className="flex justify-center mb-8"
+        >
+          <TecnasaLogo size="large" />
+        </motion.div>
+
+        {/* Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
         >
           <Sparkles className="w-4 h-4 text-primary" />
-          <span className="text-sm text-secondary font-medium">Webinar Gratuito</span>
+          <span className="text-sm text-gray-300 font-medium">Webinar Gratuito</span>
         </motion.div>
 
         {/* Main headline */}
@@ -159,7 +127,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="text-4xl md:text-6xl font-display font-bold mb-4 leading-tight text-secondary"
+          className="text-4xl md:text-6xl font-display font-bold mb-4 leading-tight text-white"
         >
           ¿Quieres trabajar más rápido y
         </motion.h1>
@@ -178,7 +146,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="text-lg md:text-xl text-text-light mb-4"
+          className="text-lg md:text-xl text-gray-400 mb-4"
         >
           Te invitamos a nuestra charla
         </motion.p>
@@ -188,7 +156,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="text-2xl md:text-3xl font-display font-bold mb-8 text-secondary"
+          className="text-2xl md:text-3xl font-display font-bold mb-8 text-white"
         >
           IAG 101 Fundamentos de IA Generativa
         </motion.h3>
@@ -204,42 +172,42 @@ export default function Hero() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
                 <Calendar className="w-5 h-5 text-primary" />
               </div>
               <div className="text-left">
-                <p className="text-xs text-text-light">Fecha</p>
-                <p className="font-semibold text-secondary">Lunes 23 de marzo</p>
+                <p className="text-xs text-gray-500">Fecha</p>
+                <p className="font-semibold text-white text-sm">Lunes 23 de marzo</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
                 <Clock className="w-5 h-5 text-primary" />
               </div>
               <div className="text-left">
-                <p className="text-xs text-text-light">Hora</p>
-                <p className="font-semibold text-secondary">10:00 A.M.</p>
+                <p className="text-xs text-gray-500">Hora</p>
+                <p className="font-semibold text-white text-sm">10:00 A.M.</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
                 <User className="w-5 h-5 text-primary" />
               </div>
               <div className="text-left">
-                <p className="text-xs text-text-light">Speaker</p>
-                <p className="font-semibold text-secondary">Ulises González</p>
+                <p className="text-xs text-gray-500">Speaker</p>
+                <p className="font-semibold text-white text-sm">Ulises González</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
                 <Video className="w-5 h-5 text-primary" />
               </div>
               <div className="text-left">
-                <p className="text-xs text-text-light">Plataforma</p>
-                <p className="font-semibold text-secondary">Zoom</p>
+                <p className="text-xs text-gray-500">Plataforma</p>
+                <p className="font-semibold text-white text-sm">Zoom</p>
               </div>
             </div>
           </div>
@@ -279,7 +247,7 @@ export default function Hero() {
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
-          className="flex flex-col items-center gap-2 text-text-light"
+          className="flex flex-col items-center gap-2 text-gray-500"
         >
           <span className="text-xs">Explorar contenido</span>
           <ArrowDown className="w-5 h-5" />

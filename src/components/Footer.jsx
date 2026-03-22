@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Brain, Sparkles, Github, Linkedin, Twitter, Mail, ArrowUp } from 'lucide-react';
+import { Github, Linkedin, Twitter, Mail, ArrowUp } from 'lucide-react';
+import { TecnasaLogoCompact } from './TecnasaLogo';
 
 const links = {
   producto: [
@@ -34,30 +35,24 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative pt-24 pb-8 bg-secondary text-white overflow-hidden">
+    <footer className="relative pt-24 pb-8 bg-bg-dark overflow-hidden">
       {/* Top gradient line */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-accent to-primary" />
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
 
       {/* Background decoration */}
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+      <div className="blob-1 bottom-0 left-1/4" />
+      <div className="blob-2 bottom-0 right-1/4" />
 
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Main footer content */}
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           {/* Brand column */}
           <div className="lg:col-span-2">
-            <a href="#hero" className="flex items-center gap-3 mb-6 group">
-              <div className="relative">
-                <Brain className="w-10 h-10 text-primary group-hover:text-primary-light transition-colors" />
-                <Sparkles className="w-4 h-4 text-accent absolute -top-1 -right-1 animate-pulse" />
-              </div>
-              <span className="font-display font-bold text-2xl text-white">
-                IAG 101
-              </span>
+            <a href="#hero" className="inline-block mb-6">
+              <TecnasaLogoCompact />
             </a>
             <p className="text-gray-400 mb-6 max-w-sm">
-              IAG 101 Fundamentos de IA Generativa. Un webinar gratuito para transformar tu organización con inteligencia artificial.
+              IAG 101 Fundamentos de IA Generativa. Un webinar gratuito presentado por Tecnasa U Learning Centers para transformar tu organización con inteligencia artificial.
             </p>
 
             {/* Social links */}
@@ -68,7 +63,7 @@ export default function Footer() {
                   href={item.href}
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-white/20 transition-all"
+                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-primary/10 transition-all"
                   aria-label={item.label}
                 >
                   <item.icon className="w-5 h-5" />
@@ -128,7 +123,7 @@ export default function Footer() {
         </div>
 
         {/* Newsletter */}
-        <div className="bg-white/5 rounded-2xl p-8 mb-16 border border-white/10">
+        <div className="glass rounded-2xl p-8 mb-16">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <h3 className="text-xl font-display font-bold text-white mb-2">
@@ -142,7 +137,7 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="tu@email.com"
-                className="flex-1 md:w-64 px-4 py-3 rounded-xl bg-white/10 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
+                className="flex-1 md:w-64 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
               />
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -158,7 +153,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-white/10">
           <p className="text-sm text-gray-500">
-            © 2026 IAG 101 - Ulises González. Todos los derechos reservados.
+            © 2026 Tecnasa U Learning Centers. Todos los derechos reservados.
           </p>
 
           <div className="flex items-center gap-4">
@@ -171,7 +166,7 @@ export default function Footer() {
               onClick={scrollToTop}
               whileHover={{ scale: 1.1, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-gray-400 hover:text-primary transition-colors"
+              className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-primary transition-colors"
               aria-label="Volver arriba"
             >
               <ArrowUp className="w-5 h-5" />
