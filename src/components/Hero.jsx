@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, Calendar, Clock, User, Video, Sparkles } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import TecnasaLogo from './TecnasaLogo';
 
 // Neural network animation component
@@ -83,7 +83,7 @@ function NeuralNetwork() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full opacity-50"
+      className="absolute inset-0 w-full h-full opacity-40"
     />
   );
 }
@@ -99,141 +99,60 @@ export default function Hero() {
       <div className="blob-1 top-0 right-0 translate-x-1/2 -translate-y-1/2" />
       <div className="blob-2 bottom-0 left-0 -translate-x-1/2 translate-y-1/2" />
 
-      {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-20">
-        {/* Tecnasa Logo */}
+      {/* Content - Presentation style */}
+      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+        {/* Tecnasa Logo - Prominent */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="flex justify-center mb-8"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="flex justify-center mb-12"
         >
           <TecnasaLogo size="large" />
         </motion.div>
 
-        {/* Badge */}
+        {/* Presentation title */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+          className="mb-8"
+        >
+          <h1 className="text-5xl md:text-7xl font-display font-bold text-white mb-4 leading-tight">
+            IAG 101
+          </h1>
+          <h2 className="text-2xl md:text-4xl font-display font-medium text-primary">
+            Fundamentos de IA Generativa
+          </h2>
+        </motion.div>
+
+        {/* Divider line */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="w-32 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-8"
+        />
+
+        {/* Welcome message */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="text-xl md:text-2xl text-gray-300 mb-12"
+        >
+          Bienvenidos
+        </motion.p>
+
+        {/* Presenter info */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
+          transition={{ delay: 1, duration: 0.8 }}
+          className="inline-flex flex-col items-center"
         >
-          <Sparkles className="w-4 h-4 text-primary" />
-          <span className="text-sm text-gray-300 font-medium">Webinar Gratuito</span>
-        </motion.div>
-
-        {/* Main headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="text-4xl md:text-6xl font-display font-bold mb-4 leading-tight text-white"
-        >
-          ¿Quieres trabajar más rápido y
-        </motion.h1>
-
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="text-4xl md:text-6xl font-display font-bold mb-6 leading-tight"
-        >
-          <span className="gradient-text">tomar mejores decisiones con IA?</span>
-        </motion.h2>
-
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="text-lg md:text-xl text-gray-400 mb-4"
-        >
-          Te invitamos a nuestra charla
-        </motion.p>
-
-        {/* Webinar title */}
-        <motion.h3
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="text-2xl md:text-3xl font-display font-bold mb-8 text-white"
-        >
-          IAG 101 Fundamentos de IA Generativa
-        </motion.h3>
-
-        {/* Event details card */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="glass-strong rounded-2xl p-6 md:p-8 max-w-2xl mx-auto mb-8"
-        >
-          <p className="text-primary font-semibold mb-6 text-lg">¡Te esperamos!</p>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                <Calendar className="w-5 h-5 text-primary" />
-              </div>
-              <div className="text-left">
-                <p className="text-xs text-gray-500">Fecha</p>
-                <p className="font-semibold text-white text-sm">Lunes 23 de marzo</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                <Clock className="w-5 h-5 text-primary" />
-              </div>
-              <div className="text-left">
-                <p className="text-xs text-gray-500">Hora</p>
-                <p className="font-semibold text-white text-sm">10:00 A.M.</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                <User className="w-5 h-5 text-primary" />
-              </div>
-              <div className="text-left">
-                <p className="text-xs text-gray-500">Speaker</p>
-                <p className="font-semibold text-white text-sm">Ulises González</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                <Video className="w-5 h-5 text-primary" />
-              </div>
-              <div className="text-left">
-                <p className="text-xs text-gray-500">Plataforma</p>
-                <p className="font-semibold text-white text-sm">Zoom</p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
-          className="flex flex-wrap justify-center gap-4"
-        >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="btn-primary text-lg px-10 py-4"
-          >
-            Regístrate
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="btn-secondary text-lg px-10 py-4"
-          >
-            Ver Agenda
-          </motion.button>
+          <span className="text-sm text-gray-500 uppercase tracking-widest mb-2">Presentado por</span>
+          <span className="text-xl md:text-2xl font-display font-semibold text-white">Ulises González</span>
         </motion.div>
       </div>
 

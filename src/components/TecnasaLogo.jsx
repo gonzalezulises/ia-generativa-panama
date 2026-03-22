@@ -1,95 +1,66 @@
-// Tecnasa U Logo Component
+// Tecnasa U Logo Component - Exact replica
 export default function TecnasaLogo({ className = "", size = "default" }) {
   const sizes = {
-    small: { width: 120, height: 40 },
-    default: { width: 160, height: 50 },
-    large: { width: 200, height: 65 }
+    small: { scale: 0.6 },
+    default: { scale: 0.8 },
+    large: { scale: 1.2 }
   };
 
-  const { width, height } = sizes[size] || sizes.default;
+  const { scale } = sizes[size] || sizes.default;
 
   return (
-    <svg
-      viewBox="0 0 200 65"
-      width={width}
-      height={height}
-      className={className}
-      aria-label="Tecnasa U Learning Centers"
-    >
-      {/* U Icon */}
-      <g>
-        {/* Main U shape */}
-        <path
-          d="M10 5 L10 35 Q10 50 25 50 L40 50 L40 45 L25 45 Q15 45 15 35 L15 5 L10 5"
-          fill="#00B4D8"
-        />
-        {/* Top right pixel blocks */}
-        <rect x="25" y="5" width="8" height="8" fill="#00B4D8" />
-        <rect x="35" y="5" width="8" height="8" fill="#00B4D8" />
-        <rect x="35" y="15" width="8" height="8" fill="#00B4D8" />
-      </g>
+    <div className={`flex flex-col items-center ${className}`} style={{ transform: `scale(${scale})` }}>
+      {/* U Icon - Pixel perfect */}
+      <svg viewBox="0 0 40 44" width="40" height="44" className="mb-2" aria-hidden="true">
+        {/* Left vertical bar */}
+        <rect x="0" y="0" width="8" height="36" fill="#00B4D8" />
+        {/* Bottom horizontal */}
+        <rect x="0" y="36" width="24" height="8" fill="#00B4D8" />
+        {/* Right vertical connector */}
+        <rect x="16" y="28" width="8" height="8" fill="#00B4D8" />
+        {/* Top right pixel blocks - stair pattern */}
+        <rect x="24" y="0" width="8" height="8" fill="#00B4D8" />
+        <rect x="32" y="0" width="8" height="8" fill="#00B4D8" />
+        <rect x="32" y="8" width="8" height="8" fill="#00B4D8" />
+      </svg>
 
-      {/* tecnasa text */}
-      <text
-        x="55"
-        y="38"
-        fontFamily="Inter, system-ui, sans-serif"
-        fontSize="24"
-        fontWeight="400"
-        fill="#FFFFFF"
-        letterSpacing="0.5"
-      >
-        tecnasa
-      </text>
+      {/* tecnasa u text */}
+      <div className="flex items-baseline">
+        <span className="text-2xl font-normal text-white tracking-wide">tecnasa</span>
+        <span className="text-2xl font-bold text-[#00B4D8] ml-1">u</span>
+      </div>
 
-      {/* U text */}
-      <text
-        x="158"
-        y="38"
-        fontFamily="Inter, system-ui, sans-serif"
-        fontSize="24"
-        fontWeight="700"
-        fill="#00B4D8"
-      >
-        u
-      </text>
-
-      {/* LEARNING CENTERS text */}
-      <text
-        x="55"
-        y="55"
-        fontFamily="Inter, system-ui, sans-serif"
-        fontSize="10"
-        fontWeight="500"
-        fill="#666666"
-        letterSpacing="2"
-      >
-        LEARNING CENTERS
-      </text>
-    </svg>
+      {/* LEARNING CENTERS */}
+      <span className="text-[10px] text-white/80 tracking-[0.25em] mt-1">LEARNING CENTERS</span>
+    </div>
   );
 }
 
-// Simplified version for navbar
+// Compact version for navbar - exact same style
 export function TecnasaLogoCompact({ className = "" }) {
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      {/* U Icon */}
-      <svg viewBox="0 0 45 50" width="32" height="36" aria-hidden="true">
-        <path
-          d="M5 0 L5 30 Q5 45 20 45 L35 45 L35 40 L20 40 Q10 40 10 30 L10 0 L5 0"
-          fill="#00B4D8"
-        />
-        <rect x="20" y="0" width="7" height="7" fill="#00B4D8" />
-        <rect x="29" y="0" width="7" height="7" fill="#00B4D8" />
-        <rect x="29" y="9" width="7" height="7" fill="#00B4D8" />
+    <div className={`flex items-center gap-3 ${className}`}>
+      {/* U Icon - Pixel perfect small */}
+      <svg viewBox="0 0 40 44" width="28" height="32" aria-hidden="true">
+        {/* Left vertical bar */}
+        <rect x="0" y="0" width="8" height="36" fill="#00B4D8" />
+        {/* Bottom horizontal */}
+        <rect x="0" y="36" width="24" height="8" fill="#00B4D8" />
+        {/* Right vertical connector */}
+        <rect x="16" y="28" width="8" height="8" fill="#00B4D8" />
+        {/* Top right pixel blocks - stair pattern */}
+        <rect x="24" y="0" width="8" height="8" fill="#00B4D8" />
+        <rect x="32" y="0" width="8" height="8" fill="#00B4D8" />
+        <rect x="32" y="8" width="8" height="8" fill="#00B4D8" />
       </svg>
+
       {/* Text */}
       <div className="flex flex-col">
-        <span className="text-lg font-normal text-white leading-none">
-          tecnasa<span className="font-bold text-primary">u</span>
-        </span>
-        <span className="text-[8px] text-gray-500 tracking-widest">LEARNING CENTERS</span>
+        <div className="flex items-baseline">
+          <span className="text-lg font-normal text-white tracking-wide leading-none">tecnasa</span>
+          <span className="text-lg font-bold text-[#00B4D8] ml-0.5 leading-none">u</span>
+        </div>
+        <span className="text-[8px] text-white/60 tracking-[0.2em]">LEARNING CENTERS</span>
       </div>
     </div>
   );
