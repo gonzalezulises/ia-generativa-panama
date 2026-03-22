@@ -34,13 +34,13 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative pt-24 pb-8 overflow-hidden">
+    <footer className="relative pt-24 pb-8 bg-secondary text-white overflow-hidden">
       {/* Top gradient line */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-neon-purple/50 to-transparent" />
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-accent to-primary" />
 
       {/* Background decoration */}
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-neon-cyan/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-neon-purple/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
 
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Main footer content */}
@@ -49,16 +49,15 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <a href="#hero" className="flex items-center gap-3 mb-6 group">
               <div className="relative">
-                <Brain className="w-10 h-10 text-neon-cyan group-hover:text-neon-purple transition-colors" />
-                <Sparkles className="w-4 h-4 text-neon-pink absolute -top-1 -right-1 animate-pulse" />
+                <Brain className="w-10 h-10 text-primary group-hover:text-primary-light transition-colors" />
+                <Sparkles className="w-4 h-4 text-accent absolute -top-1 -right-1 animate-pulse" />
               </div>
-              <span className="font-display font-bold text-2xl gradient-text">
-                IA Panamá
+              <span className="font-display font-bold text-2xl text-white">
+                IAG 101
               </span>
             </a>
             <p className="text-gray-400 mb-6 max-w-sm">
-              Fundamentos de la IA Generativa: Impacto y oportunidades para Panamá.
-              Un webinar ejecutivo para transformar tu organización.
+              IAG 101 Fundamentos de IA Generativa. Un webinar gratuito para transformar tu organización con inteligencia artificial.
             </p>
 
             {/* Social links */}
@@ -69,7 +68,7 @@ export default function Footer() {
                   href={item.href}
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 rounded-full glass flex items-center justify-center text-gray-400 hover:text-white hover:border-neon-cyan transition-all"
+                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-white/20 transition-all"
                   aria-label={item.label}
                 >
                   <item.icon className="w-5 h-5" />
@@ -80,13 +79,13 @@ export default function Footer() {
 
           {/* Links columns */}
           <div>
-            <h4 className="font-semibold text-white mb-4">Producto</h4>
+            <h4 className="font-semibold text-white mb-4">Contenido</h4>
             <ul className="space-y-3">
               {links.producto.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-neon-cyan transition-colors"
+                    className="text-gray-400 hover:text-primary transition-colors"
                   >
                     {link.label}
                   </a>
@@ -102,7 +101,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-neon-cyan transition-colors"
+                    className="text-gray-400 hover:text-primary transition-colors"
                   >
                     {link.label}
                   </a>
@@ -118,7 +117,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-neon-cyan transition-colors"
+                    className="text-gray-400 hover:text-primary transition-colors"
                   >
                     {link.label}
                   </a>
@@ -129,26 +128,26 @@ export default function Footer() {
         </div>
 
         {/* Newsletter */}
-        <div className="glass rounded-2xl p-8 mb-16">
+        <div className="bg-white/5 rounded-2xl p-8 mb-16 border border-white/10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <h3 className="text-xl font-display font-bold text-white mb-2">
-                Recibe el toolkit ejecutivo
+                Recibe el material del webinar
               </h3>
               <p className="text-gray-400">
-                "Mapa de decisiones para implementar IA generativa en 30 días"
+                Slides, recursos y guía práctica de IA Generativa
               </p>
             </div>
             <div className="flex gap-3 w-full md:w-auto">
               <input
                 type="email"
                 placeholder="tu@email.com"
-                className="flex-1 md:w-64 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-neon-cyan transition-colors"
+                className="flex-1 md:w-64 px-4 py-3 rounded-xl bg-white/10 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
               />
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 rounded-xl bg-gradient-to-r from-neon-cyan to-neon-purple text-black font-semibold whitespace-nowrap"
+                className="btn-primary whitespace-nowrap"
               >
                 Suscribir
               </motion.button>
@@ -157,14 +156,14 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-white/5">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-white/10">
           <p className="text-sm text-gray-500">
-            © 2026 IA Generativa Panamá. Todos los derechos reservados.
+            © 2026 IAG 101 - Ulises González. Todos los derechos reservados.
           </p>
 
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-500">
-              Datos: Stanford AI Index, Elemente, Check Point
+              Lunes 23 de marzo · 10:00 AM · Zoom
             </span>
 
             {/* Back to top button */}
@@ -172,7 +171,7 @@ export default function Footer() {
               onClick={scrollToTop}
               whileHover={{ scale: 1.1, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 rounded-full glass flex items-center justify-center text-gray-400 hover:text-neon-cyan transition-colors"
+              className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-gray-400 hover:text-primary transition-colors"
               aria-label="Volver arriba"
             >
               <ArrowUp className="w-5 h-5" />

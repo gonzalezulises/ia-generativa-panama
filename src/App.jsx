@@ -23,14 +23,7 @@ function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-slate-950 overflow-x-hidden">
-      {/* Fixed background elements */}
-      <div className="fixed inset-0 bg-grid pointer-events-none opacity-30" />
-      <div className="fixed top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-neon-cyan/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-neon-purple/5 rounded-full blur-[120px]" />
-      </div>
-
+    <div className="relative min-h-screen bg-bg overflow-x-hidden">
       {/* Content */}
       <div className="relative z-10">
         <Navbar />

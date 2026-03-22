@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, Sparkles, Zap, Brain } from 'lucide-react';
+import { ArrowDown, Calendar, Clock, User, Video, Sparkles } from 'lucide-react';
 
-// Neural network animation component
+// Neural network animation component - Light theme
 function NeuralNetwork() {
   const canvasRef = useRef(null);
 
@@ -12,10 +12,8 @@ function NeuralNetwork() {
 
     const ctx = canvas.getContext('2d');
     const nodes = [];
-    const connections = [];
-    const nodeCount = 50;
+    const nodeCount = 40;
 
-    // Set canvas size
     const resize = () => {
       canvas.width = canvas.offsetWidth * 2;
       canvas.height = canvas.offsetHeight * 2;
@@ -24,44 +22,38 @@ function NeuralNetwork() {
     resize();
     window.addEventListener('resize', resize);
 
-    // Create nodes
     for (let i = 0; i < nodeCount; i++) {
       nodes.push({
         x: Math.random() * canvas.offsetWidth,
         y: Math.random() * canvas.offsetHeight,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
         radius: Math.random() * 2 + 1,
         pulse: Math.random() * Math.PI * 2
       });
     }
 
-    // Animation loop
     let animationId;
     const animate = () => {
       ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
 
-      // Update and draw nodes
       nodes.forEach((node, i) => {
-        // Move nodes
         node.x += node.vx;
         node.y += node.vy;
         node.pulse += 0.02;
 
-        // Bounce off edges
         if (node.x < 0 || node.x > canvas.offsetWidth) node.vx *= -1;
         if (node.y < 0 || node.y > canvas.offsetHeight) node.vy *= -1;
 
-        // Draw connections to nearby nodes
         nodes.slice(i + 1).forEach(other => {
           const dx = other.x - node.x;
           const dy = other.y - node.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 150) {
-            const opacity = (1 - distance / 150) * 0.3;
+          if (distance < 120) {
+            const opacity = (1 - distance / 120) * 0.15;
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(0, 245, 255, ${opacity})`;
+            ctx.strokeStyle = `rgba(79, 195, 247, ${opacity})`;
             ctx.lineWidth = 0.5;
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(other.x, other.y);
@@ -69,17 +61,10 @@ function NeuralNetwork() {
           }
         });
 
-        // Draw node
-        const pulseSize = Math.sin(node.pulse) * 0.5 + 1;
+        const pulseSize = Math.sin(node.pulse) * 0.3 + 1;
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.radius * pulseSize, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(191, 0, 255, ${0.5 + Math.sin(node.pulse) * 0.3})`;
-        ctx.fill();
-
-        // Glow effect
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, node.radius * pulseSize * 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 245, 255, ${0.1 + Math.sin(node.pulse) * 0.05})`;
+        ctx.fillStyle = `rgba(79, 195, 247, ${0.4 + Math.sin(node.pulse) * 0.2})`;
         ctx.fill();
       });
 
@@ -97,7 +82,7 @@ function NeuralNetwork() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full opacity-60"
+      className="absolute inset-0 w-full h-full opacity-40"
     />
   );
 }
@@ -133,49 +118,40 @@ function TypewriterText({ texts, className }) {
   return (
     <span className={className}>
       {currentText}
-      <span className="animate-pulse text-neon-cyan">|</span>
+      <span className="animate-pulse text-primary">|</span>
     </span>
   );
 }
 
 export default function Hero() {
   const typewriterTexts = [
-    'transforma negocios',
-    'automatiza procesos',
-    'potencia decisiones',
-    'revoluciona industrias'
+    'tomar mejores decisiones',
+    'trabajar más rápido',
+    'automatizar procesos',
+    'transformar tu negocio'
   ];
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-white to-gray-50">
       {/* Background layers */}
       <div className="absolute inset-0 bg-grid" />
       <NeuralNetwork />
-      <div className="absolute inset-0 radial-gradient" />
 
-      {/* Floating elements */}
-      <motion.div
-        animate={{ y: [-10, 10, -10] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-neon-cyan/10 blur-3xl"
-      />
-      <motion.div
-        animate={{ y: [10, -10, 10] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-1/4 right-1/4 w-48 h-48 rounded-full bg-neon-purple/10 blur-3xl"
-      />
+      {/* Decorative blobs */}
+      <div className="blob-1 top-0 right-0 translate-x-1/2 -translate-y-1/2" />
+      <div className="blob-2 bottom-0 left-0 -translate-x-1/2 translate-y-1/2" />
 
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-20">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8"
         >
-          <Sparkles className="w-4 h-4 text-neon-cyan" />
-          <span className="text-sm text-gray-400">Webinar Ejecutivo 2026</span>
+          <Sparkles className="w-4 h-4 text-primary" />
+          <span className="text-sm text-secondary font-medium">Webinar Gratuito</span>
         </motion.div>
 
         {/* Main headline */}
@@ -183,44 +159,90 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="text-5xl md:text-7xl font-display font-bold mb-6 leading-tight"
+          className="text-4xl md:text-6xl font-display font-bold mb-4 leading-tight text-secondary"
         >
-          La <span className="gradient-text">IA Generativa</span>
-          <br />
-          ya llegó a Panamá
+          ¿Quieres trabajar más rápido y
         </motion.h1>
 
-        {/* Subtitle with typewriter */}
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="text-4xl md:text-6xl font-display font-bold mb-6 leading-tight"
+        >
+          <span className="gradient-text">tomar mejores decisiones con IA?</span>
+        </motion.h2>
+
+        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto"
+          className="text-lg md:text-xl text-text-light mb-4"
         >
-          Descubre cómo la inteligencia artificial{' '}
-          <TypewriterText texts={typewriterTexts} className="text-white font-medium" />
+          Te invitamos a nuestra charla
         </motion.p>
 
-        {/* Stats row */}
+        {/* Webinar title */}
+        <motion.h3
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="text-2xl md:text-3xl font-display font-bold mb-8 text-secondary"
+        >
+          IAG 101 Fundamentos de IA Generativa
+        </motion.h3>
+
+        {/* Event details card */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="flex flex-wrap justify-center gap-8 mb-12"
+          className="glass-strong rounded-2xl p-6 md:p-8 max-w-2xl mx-auto mb-8"
         >
-          {[
-            { icon: Brain, value: '2.3/5.0', label: 'Madurez IA' },
-            { icon: Zap, value: '2,488', label: 'Ataques/semana' },
-            { icon: Sparkles, value: '14', label: 'Data Centers' }
-          ].map((stat, index) => (
-            <div key={index} className="flex items-center gap-3 glass px-4 py-3 rounded-xl">
-              <stat.icon className="w-5 h-5 text-neon-cyan" />
+          <p className="text-primary font-semibold mb-6 text-lg">¡Te esperamos!</p>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Calendar className="w-5 h-5 text-primary" />
+              </div>
               <div className="text-left">
-                <div className="text-lg font-bold text-white">{stat.value}</div>
-                <div className="text-xs text-gray-500">{stat.label}</div>
+                <p className="text-xs text-text-light">Fecha</p>
+                <p className="font-semibold text-secondary">Lunes 23 de marzo</p>
               </div>
             </div>
-          ))}
+
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Clock className="w-5 h-5 text-primary" />
+              </div>
+              <div className="text-left">
+                <p className="text-xs text-text-light">Hora</p>
+                <p className="font-semibold text-secondary">10:00 A.M.</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <User className="w-5 h-5 text-primary" />
+              </div>
+              <div className="text-left">
+                <p className="text-xs text-text-light">Speaker</p>
+                <p className="font-semibold text-secondary">Ulises González</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Video className="w-5 h-5 text-primary" />
+              </div>
+              <div className="text-left">
+                <p className="text-xs text-text-light">Plataforma</p>
+                <p className="font-semibold text-secondary">Zoom</p>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
         {/* CTA Buttons */}
@@ -233,16 +255,16 @@ export default function Hero() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 rounded-full bg-gradient-to-r from-neon-cyan to-neon-purple text-black font-bold text-lg glow-cyan"
+            className="btn-primary text-lg px-10 py-4"
           >
-            Reservar Cupo
+            Regístrate
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 rounded-full glass hover:bg-white/10 font-semibold text-lg transition-colors"
+            className="btn-secondary text-lg px-10 py-4"
           >
-            Ver Demo
+            Ver Agenda
           </motion.button>
         </motion.div>
       </div>
@@ -257,9 +279,9 @@ export default function Hero() {
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
-          className="flex flex-col items-center gap-2 text-gray-500"
+          className="flex flex-col items-center gap-2 text-text-light"
         >
-          <span className="text-xs">Explorar</span>
+          <span className="text-xs">Explorar contenido</span>
           <ArrowDown className="w-5 h-5" />
         </motion.div>
       </motion.div>

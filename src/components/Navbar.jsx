@@ -29,18 +29,18 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'glass-strong py-3' : 'py-6'
+          isScrolled ? 'glass-strong py-3' : 'py-6 bg-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
           <a href="#hero" className="flex items-center gap-3 group">
             <div className="relative">
-              <Brain className="w-8 h-8 text-neon-cyan group-hover:text-neon-purple transition-colors" />
-              <Sparkles className="w-4 h-4 text-neon-pink absolute -top-1 -right-1 animate-pulse" />
+              <Brain className="w-8 h-8 text-primary group-hover:text-primary-dark transition-colors" />
+              <Sparkles className="w-4 h-4 text-accent absolute -top-1 -right-1 animate-pulse" />
             </div>
-            <span className="font-display font-bold text-xl gradient-text">
-              IA Panamá
+            <span className="font-display font-bold text-xl text-secondary">
+              IAG 101
             </span>
           </a>
 
@@ -50,25 +50,25 @@ export default function Navbar() {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-sm text-gray-400 hover:text-white transition-colors relative group"
+                className="text-sm text-text-light hover:text-primary transition-colors relative group"
               >
                 {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-neon-cyan to-neon-purple group-hover:w-full transition-all duration-300" />
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
               </a>
             ))}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-5 py-2 rounded-full bg-gradient-to-r from-neon-cyan to-neon-purple text-black font-semibold text-sm glow-cyan"
+              className="btn-primary text-sm"
             >
-              Contactar
+              Regístrate
             </motion.button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-gray-400 hover:text-white"
+            className="md:hidden p-2 text-text-light hover:text-primary"
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -93,7 +93,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                   onClick={() => setMobileOpen(false)}
-                  className="text-xl text-gray-300 hover:text-white transition-colors"
+                  className="text-xl text-secondary hover:text-primary transition-colors"
                 >
                   {item.label}
                 </motion.a>
@@ -102,9 +102,9 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: navItems.length * 0.1 }}
-                className="mt-4 px-8 py-3 rounded-full bg-gradient-to-r from-neon-cyan to-neon-purple text-black font-semibold"
+                className="mt-4 btn-primary"
               >
-                Contactar
+                Regístrate
               </motion.button>
             </div>
           </motion.div>
