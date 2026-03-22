@@ -193,10 +193,10 @@ const NetworkGraph = ({ activeSector, onSectorHover }) => {
     <div className="relative w-full h-[420px]">
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 w-full h-full pointer-events-none"
       />
       {/* Clickable overlay for sector nodes */}
-      <svg viewBox="0 0 800 420" className="absolute inset-0 w-full h-full">
+      <svg viewBox="0 0 800 420" className="absolute inset-0 w-full h-full" style={{ zIndex: 10 }}>
         {sectorNodes.map((node, index) => (
           <g key={node.id}>
             {/* Invisible larger hit area */}
