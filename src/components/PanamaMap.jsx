@@ -17,19 +17,27 @@ const NetworkGraph = ({ activeSector, onSectorHover }) => {
   const canvasRef = useRef(null);
   const [nodes, setNodes] = useState([]);
 
-  // Node positions for sectors (hexagonal layout)
+  // Node positions for sectors (Sagittarius constellation - "The Teapot")
+  // Based on actual star positions of Sagittarius
   const sectorNodes = [
-    { id: 'logistics', x: 200, y: 150, label: 'Logística', color: '#00B4D8' },
-    { id: 'finance', x: 400, y: 80, label: 'Finanzas', color: '#10B981' },
-    { id: 'health', x: 600, y: 150, label: 'Salud', color: '#F43F5E' },
-    { id: 'government', x: 200, y: 280, label: 'Gobierno', color: '#8B5CF6' },
-    { id: 'retail', x: 400, y: 350, label: 'Retail', color: '#F59E0B' },
-    { id: 'education', x: 600, y: 280, label: 'Educación', color: '#06B6D4' },
+    { id: 'logistics', x: 150, y: 200, label: 'Logística', color: '#00B4D8' },      // Kaus Australis (ε) - spout bottom
+    { id: 'finance', x: 250, y: 120, label: 'Finanzas', color: '#10B981' },         // Kaus Media (δ) - spout top
+    { id: 'health', x: 380, y: 100, label: 'Salud', color: '#F43F5E' },             // Kaus Borealis (λ) - lid
+    { id: 'government', x: 500, y: 140, label: 'Gobierno', color: '#8B5CF6' },      // Nunki (σ) - handle top
+    { id: 'retail', x: 550, y: 260, label: 'Retail', color: '#F59E0B' },            // Tau Sgr - handle bottom
+    { id: 'education', x: 350, y: 280, label: 'Educación', color: '#06B6D4' },      // Ascella (ζ) - base
   ];
 
-  // Connections between nodes
+  // Connections forming the Sagittarius teapot asterism
   const connections = [
-    [0, 1], [1, 2], [0, 3], [1, 4], [2, 5], [3, 4], [4, 5], [0, 4], [1, 3], [2, 4], [1, 5]
+    [0, 1], // Spout line
+    [1, 2], // Spout to lid
+    [2, 3], // Lid to handle top
+    [3, 4], // Handle curve
+    [4, 5], // Handle to base
+    [5, 0], // Base to spout (bottom of teapot)
+    [1, 5], // Internal: spout top to base
+    [2, 5], // Internal: lid to base
   ];
 
   useEffect(() => {
