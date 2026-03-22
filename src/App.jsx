@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Demos from './components/Demos';
 import Stats from './components/Stats';
 import Timeline from './components/Timeline';
 import LLMDemo from './components/LLMDemo';
@@ -29,6 +30,7 @@ function App() {
         <Navbar />
         <main>
           <Hero />
+          <Demos />
           <LLMDemo />
           <Timeline />
           <PanamaMap />
