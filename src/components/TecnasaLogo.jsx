@@ -1,15 +1,15 @@
-// Tecnasa U Logo Component - Using actual brand image
+// Tecnasa U Logo Component - SVG vector logo
 export default function TecnasaLogo({ className = "", size = "default" }) {
   const sizes = {
-    small: 'h-16',
-    default: 'h-24',
-    large: 'h-36'
+    small: 'h-12',
+    default: 'h-16',
+    large: 'h-20'
   };
 
   return (
     <div className={`flex items-center justify-center ${className}`}>
       <img
-        src="/tecnasaU.png"
+        src="/tecnasaU.svg"
         alt="Tecnasa U Learning Centers"
         className={`${sizes[size] || sizes.default} w-auto object-contain`}
       />
@@ -22,9 +22,9 @@ export function TecnasaLogoCompact({ className = "" }) {
   return (
     <div className={`flex items-center ${className}`}>
       <img
-        src="/tecnasaU.png"
+        src="/tecnasaU.svg"
         alt="Tecnasa U"
-        className="h-9 w-auto object-contain"
+        className="h-8 w-auto object-contain"
       />
     </div>
   );
