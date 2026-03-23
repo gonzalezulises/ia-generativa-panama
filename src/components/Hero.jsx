@@ -3,9 +3,10 @@ import { motion } from 'framer-motion';
 import { ArrowDown, Users, Lightbulb, Target } from 'lucide-react';
 import TecnasaLogo from './TecnasaLogo';
 
-// Neural network animation component
+// Neural network animation component with mouse interaction
 function NeuralNetwork() {
   const canvasRef = useRef(null);
+  const mouseRef = useRef({ x: -1000, y: -1000 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -14,6 +15,7 @@ function NeuralNetwork() {
     const ctx = canvas.getContext('2d');
     const nodes = [];
     const nodeCount = 60;
+    const mouseRadius = 150;
 
     const resize = () => {
       canvas.width = canvas.offsetWidth * 2;
@@ -22,6 +24,20 @@ function NeuralNetwork() {
     };
     resize();
     window.addEventListener('resize', resize);
+
+    const handleMouseMove = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current.x = e.clientX - rect.left;
+      mouseRef.current.y = e.clientY - rect.top;
+    };
+
+    const handleMouseLeave = () => {
+      mouseRef.current.x = -1000;
+      mouseRef.current.y = -1000;
+    };
+
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseleave', handleMouseLeave);
 
     for (let i = 0; i < nodeCount; i++) {
       nodes.push({
@@ -37,6 +53,7 @@ function NeuralNetwork() {
     let animationId;
     const animate = () => {
       ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+      const mouse = mouseRef.current;
 
       nodes.forEach((node, i) => {
         node.x += node.vx;
@@ -46,26 +63,75 @@ function NeuralNetwork() {
         if (node.x < 0 || node.x > canvas.offsetWidth) node.vx *= -1;
         if (node.y < 0 || node.y > canvas.offsetHeight) node.vy *= -1;
 
+        // Distance from mouse
+        const dxMouse = node.x - mouse.x;
+        const dyMouse = node.y - mouse.y;
+        const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+        const isNearMouse = distMouse < mouseRadius;
+        const mouseInfluence = isNearMouse ? 1 - distMouse / mouseRadius : 0;
+
+        // Draw connections
+        const connectionRange = isNearMouse ? 120 + mouseInfluence * 80 : 120;
+
         nodes.slice(i + 1).forEach(other => {
           const dx = other.x - node.x;
           const dy = other.y - node.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 120) {
-            const opacity = (1 - distance / 120) * 0.3;
+          if (distance < connectionRange) {
+            // Check if BOTH nodes or at least one is near mouse
+            const dxOther = other.x - mouse.x;
+            const dyOther = other.y - mouse.y;
+            const distOtherMouse = Math.sqrt(dxOther * dxOther + dyOther * dyOther);
+            const otherNearMouse = distOtherMouse < mouseRadius;
+            const pairNearMouse = isNearMouse || otherNearMouse;
+
+            const baseOpacity = (1 - distance / connectionRange) * (pairNearMouse ? 0.7 : 0.3);
+            const lineWidth = pairNearMouse ? 1 + mouseInfluence * 1.5 : 0.5;
+
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(0, 180, 216, ${opacity})`;
-            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = pairNearMouse
+              ? `rgba(0, 200, 230, ${baseOpacity})`
+              : `rgba(0, 180, 216, ${baseOpacity})`;
+            ctx.lineWidth = lineWidth;
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(other.x, other.y);
             ctx.stroke();
           }
         });
 
+        // Draw line from node to mouse cursor
+        if (isNearMouse && mouseInfluence > 0.3) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(0, 220, 240, ${mouseInfluence * 0.3})`;
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(node.x, node.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+
+        // Draw node - bigger and brighter near mouse
         const pulseSize = Math.sin(node.pulse) * 0.3 + 1;
+        const nodeRadius = isNearMouse
+          ? node.radius * pulseSize * (1 + mouseInfluence * 2)
+          : node.radius * pulseSize;
+        const nodeOpacity = isNearMouse
+          ? 0.7 + mouseInfluence * 0.3
+          : 0.5 + Math.sin(node.pulse) * 0.3;
+
+        // Glow effect near mouse
+        if (isNearMouse && mouseInfluence > 0.2) {
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, nodeRadius * 3, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(0, 200, 230, ${mouseInfluence * 0.1})`;
+          ctx.fill();
+        }
+
         ctx.beginPath();
-        ctx.arc(node.x, node.y, node.radius * pulseSize, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 180, 216, ${0.5 + Math.sin(node.pulse) * 0.3})`;
+        ctx.arc(node.x, node.y, nodeRadius, 0, Math.PI * 2);
+        ctx.fillStyle = isNearMouse
+          ? `rgba(0, 220, 240, ${nodeOpacity})`
+          : `rgba(0, 180, 216, ${nodeOpacity})`;
         ctx.fill();
       });
 
@@ -76,6 +142,8 @@ function NeuralNetwork() {
 
     return () => {
       window.removeEventListener('resize', resize);
+      canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('mouseleave', handleMouseLeave);
       cancelAnimationFrame(animationId);
     };
   }, []);
@@ -84,6 +152,7 @@ function NeuralNetwork() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full opacity-40"
+      style={{ cursor: 'default' }}
     />
   );
 }
