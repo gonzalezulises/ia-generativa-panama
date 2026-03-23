@@ -209,83 +209,74 @@ export const timeline = [
 export const sectors = [
   {
     id: "logistics",
-    name: "Logística",
+    name: "Logística y Supply Chain",
     icon: "ship",
-    maturity: 3.2,
     cases: [
-      "Canal de Panamá: CITEC con IA para gestión hídrica",
-      "Zona Libre de Colón: Automatización documental",
-      "Aduanas: Perfilamiento de riesgo con ML"
+      "Predicción de demanda y optimización de inventario con IA",
+      "Automatización de documentación aduanera y clasificación arancelaria",
+      "Monitoreo predictivo de flotas y rutas con agentes autónomos"
     ],
-    stats: { projects: 12, companies: 45 },
+    highlight: "Reducir tiempos de despacho hasta 40% con clasificación IA",
     color: "#00B4D8"
   },
   {
     id: "finance",
     name: "Banca y Finanzas",
     icon: "landmark",
-    maturity: 3.8,
     cases: [
-      "Banistmo: Chatbot 'Tabot' en producción",
-      "BAC Credomatic: Asistentes virtuales multicanal",
-      "Banco General: Biometría anti-spoofing"
+      "Detección de fraude en tiempo real con análisis de patrones",
+      "Asistentes virtuales para servicio al cliente 24/7",
+      "Generación automática de reportes de compliance y KYC"
     ],
-    stats: { projects: 28, companies: 15 },
-    highlight: "USD 125M en fraude detectado",
+    highlight: "Chatbots financieros resuelven 70% de consultas sin humano",
     color: "#10B981"
   },
   {
     id: "health",
     name: "Salud",
     icon: "heart-pulse",
-    maturity: 2.8,
     cases: [
-      "CSS: Tomógrafos con IA (~85 estudios/día)",
-      "MINSA: Programa de Telemedicina con IA",
-      "Transformación Digital en Salud Pública"
+      "Análisis de imágenes médicas para priorización de diagnóstico",
+      "RAG sobre guías clínicas para soporte en decisiones médicas",
+      "Resúmenes automáticos de historiales clínicos"
     ],
-    stats: { projects: 8, companies: 12 },
+    highlight: "IA radiológica puede triplicar capacidad de estudios diarios",
     color: "#F43F5E"
   },
   {
     id: "government",
     name: "Gobierno y Legal",
     icon: "building-2",
-    maturity: 2.4,
     cases: [
-      "ISJUP-IA: Asistente judicial con fuentes verificables",
-      "Asamblea: Redacción normativa asistida por IA",
-      "Ventanillas virtuales con chatbots 24/7"
+      "Asistentes RAG sobre normativa con fuentes verificables",
+      "Automatización de redacción y revisión de documentos legales",
+      "Chatbots de atención ciudadana y ventanilla virtual 24/7"
     ],
-    stats: { projects: 6, companies: 8 },
-    highlight: "ISJUP-IA: RAG con trazabilidad completa",
+    highlight: "RAG legal garantiza trazabilidad y cero alucinaciones",
     color: "#8B5CF6"
   },
   {
     id: "retail",
-    name: "Retail y Turismo",
+    name: "Retail y Comercio",
     icon: "shopping-cart",
-    maturity: 3.5,
     cases: [
-      "Jetour/Petroautos: 9.8% conversión (vs 1%)",
-      "Hoteles Decameron: Asistente 'Cameron'",
-      "Tocumen: IA para gestión de objetos extraviados"
+      "Chatbots de ventas en WhatsApp con calificación automática de leads",
+      "Generación de contenido para marketing y redes sociales",
+      "Personalización de recomendaciones y experiencia de compra"
     ],
-    stats: { projects: 15, companies: 32 },
-    highlight: "Caso Jetour: 9.8x mejora en conversión",
+    highlight: "Chatbots IA pueden multiplicar conversión hasta 10x",
     color: "#F59E0B"
   },
   {
     id: "education",
-    name: "Educación",
+    name: "Educación y RRHH",
     icon: "graduation-cap",
-    maturity: 2.1,
     cases: [
-      "MEDUCA: Capacitación docente en IA",
-      "ITSE: Técnico Superior en IA",
-      "UTP: Proyecto 'Nómada' robot educativo"
+      "Tutores IA personalizados que adaptan contenido al estudiante",
+      "Evaluación automática con feedback detallado y rúbricas",
+      "Onboarding y capacitación corporativa con agentes inteligentes"
     ],
-    stats: { projects: 5, companies: 10 },
+    highlight: "Formación facilitada tiene 4x mejor retención que self-paced",
     color: "#06B6D4"
   }
 ];

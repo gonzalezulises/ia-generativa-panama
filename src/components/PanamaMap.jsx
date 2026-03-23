@@ -245,29 +245,12 @@ function SectorCard({ sector, onClose }) {
         </div>
         <div>
           <h3 className="text-xl font-display font-bold text-white">{sector.name}</h3>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-400">Madurez:</span>
-            <div className="flex items-center gap-1">
-              {[1, 2, 3, 4, 5].map((n) => (
-                <div
-                  key={n}
-                  className="w-2 h-2 rounded-full"
-                  style={{
-                    backgroundColor: n <= Math.round(sector.maturity) ? sector.color : 'rgba(255,255,255,0.1)'
-                  }}
-                />
-              ))}
-              <span className="text-sm font-medium ml-1" style={{ color: sector.color }}>
-                {sector.maturity}/5.0
-              </span>
-            </div>
-          </div>
         </div>
       </div>
 
       {/* Cases */}
       <div className="space-y-2 mb-4">
-        <h4 className="text-sm font-medium text-gray-400">Casos de uso activos:</h4>
+        <h4 className="text-sm font-medium text-gray-400">Casos de uso de IA generativa:</h4>
         {sector.cases.map((caseItem, index) => (
           <motion.div
             key={index}
@@ -293,21 +276,6 @@ function SectorCard({ sector, onClose }) {
         </div>
       )}
 
-      {/* Stats */}
-      <div className="flex gap-4 mt-4 pt-4 border-t border-white/10">
-        <div>
-          <div className="text-2xl font-bold" style={{ color: sector.color }}>
-            {sector.stats.projects}
-          </div>
-          <div className="text-xs text-gray-500">Proyectos</div>
-        </div>
-        <div>
-          <div className="text-2xl font-bold text-white">
-            {sector.stats.companies}
-          </div>
-          <div className="text-xs text-gray-500">Empresas</div>
-        </div>
-      </div>
     </motion.div>
   );
 }
@@ -333,13 +301,13 @@ export default function PanamaMap() {
           className="text-center mb-12"
         >
           <span className="inline-block px-4 py-1 rounded-full bg-primary/10 text-sm text-primary font-medium mb-4">
-            Ecosistema Local
+            Aplicaciones por Sector
           </span>
           <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
-            IA en <span className="gradient-text">Panamá</span>
+            IA en tu <span className="gradient-text">Industria</span>
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Explora los sectores que están adoptando IA generativa en el país
+            Casos de uso concretos de IA generativa para cada sector
           </p>
         </motion.div>
 
@@ -409,18 +377,18 @@ export default function PanamaMap() {
                     Selecciona un sector
                   </h3>
                   <p className="text-gray-400 text-sm">
-                    Explora los casos de uso de IA en diferentes industrias de Panamá
+                    Explora los casos de uso de IA generativa aplicables a cada industria
                   </p>
 
                   {/* Quick stats */}
                   <div className="grid grid-cols-2 gap-4 mt-8 w-full">
                     <div className="glass rounded-xl p-4 text-center">
-                      <div className="text-2xl font-bold gradient-text">74</div>
-                      <div className="text-xs text-gray-500">Proyectos activos</div>
+                      <div className="text-2xl font-bold gradient-text">6</div>
+                      <div className="text-xs text-gray-500">Sectores</div>
                     </div>
                     <div className="glass rounded-xl p-4 text-center">
-                      <div className="text-2xl font-bold text-primary">122</div>
-                      <div className="text-xs text-gray-500">Empresas</div>
+                      <div className="text-2xl font-bold text-primary">18</div>
+                      <div className="text-xs text-gray-500">Casos de uso</div>
                     </div>
                   </div>
                 </motion.div>
