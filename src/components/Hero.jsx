@@ -233,7 +233,7 @@ export default function Hero() {
           className="inline-flex flex-col items-center"
         >
           <span className="text-sm text-gray-500 uppercase tracking-widest mb-2">Presentado por</span>
-          <span className="text-xl md:text-2xl font-display font-semibold text-white">Ulises González</span>
+          <a href="https://www.linkedin.com/in/ulisesgonzalez/" target="_blank" rel="noopener noreferrer" className="text-xl md:text-2xl font-display font-semibold text-white hover:text-primary transition-colors">Ulises González</a>
         </motion.div>
       </div>
 

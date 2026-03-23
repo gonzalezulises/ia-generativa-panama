@@ -39,9 +39,9 @@ export default function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand column */}
           <div className="lg:col-span-2">
-            <a href="#hero" className="inline-block mb-6">
+            <div className="inline-block mb-6">
               <TecnasaLogoCompact />
-            </a>
+            </div>
             <p className="text-gray-400 mb-6 max-w-sm">
               Introducción a la IA Generativa. Presentación interactiva de Tecnasa U Learning Centers.
             </p>

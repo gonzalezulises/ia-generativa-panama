@@ -1,4 +1,6 @@
 // Tecnasa U Logo Component - SVG vector logo
+const TECNASA_URL = 'https://tecnasau.tecnasa.com/';
+
 export default function TecnasaLogo({ className = "", size = "default" }) {
   const sizes = {
     small: 'h-12',
@@ -7,25 +9,25 @@ export default function TecnasaLogo({ className = "", size = "default" }) {
   };
 
   return (
-    <div className={`flex items-center justify-center ${className}`}>
+    <a href={TECNASA_URL} target="_blank" rel="noopener noreferrer" className={`flex items-center justify-center ${className}`}>
       <img
         src="/tecnasaU.svg"
         alt="Tecnasa U Learning Centers"
         className={`${sizes[size] || sizes.default} w-auto object-contain`}
       />
-    </div>
+    </a>
   );
 }
 
 // Compact version for navbar
 export function TecnasaLogoCompact({ className = "" }) {
   return (
-    <div className={`flex items-center ${className}`}>
+    <a href={TECNASA_URL} target="_blank" rel="noopener noreferrer" className={`flex items-center ${className}`}>
       <img
         src="/tecnasaU.svg"
         alt="Tecnasa U"
         className="h-8 w-auto object-contain"
       />
-    </div>
+    </a>
   );
 }
