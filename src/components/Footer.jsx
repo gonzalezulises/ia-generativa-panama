@@ -16,8 +16,8 @@ const links = {
 };
 
 const social = [
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
-  { icon: Mail, href: '#', label: 'Email' }
+  { icon: Linkedin, href: 'https://www.linkedin.com/company/tecnaboratorio/', label: 'LinkedIn' },
+  { icon: Mail, href: 'mailto:info@tecnasa.com', label: 'Email' }
 ];
 
 export default function Footer() {

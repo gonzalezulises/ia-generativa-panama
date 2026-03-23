@@ -1,8 +1,25 @@
 // Vercel Serverless — proxies to Anthropic API
 // Keys are server-side only (not exposed in frontend bundle)
 
+// Simple in-memory rate limiter
+const rateMap = new Map();
+const RATE_LIMIT = 20;
+const RATE_WINDOW = 60_000;
+
+function checkRateLimit(key) {
+  const now = Date.now();
+  const entry = rateMap.get(key) || { count: 0, resetAt: now + RATE_WINDOW };
+  if (now > entry.resetAt) { entry.count = 0; entry.resetAt = now + RATE_WINDOW; }
+  entry.count++;
+  rateMap.set(key, entry);
+  return entry.count <= RATE_LIMIT;
+}
+
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const origin = req.headers.origin || '';
+  const allowed = ['https://ia-generativa-panama.vercel.app', 'http://localhost'];
+  const corsOrigin = allowed.find(o => origin.startsWith(o)) || allowed[0];
+  res.setHeader('Access-Control-Allow-Origin', corsOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-presenter-key');
 
@@ -15,8 +32,13 @@ export default async function handler(req, res) {
     return res.status(403).json({ error: 'Modo presentador no activado' });
   }
 
+  // Rate limit
+  if (!checkRateLimit(presenterKey)) {
+    return res.status(429).json({ error: 'Demasiadas solicitudes. Espera un momento.' });
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: 'ANTHROPIC_API_KEY not configured' });
+  if (!apiKey) return res.status(500).json({ error: 'Server configuration error' });
 
   try {
     const { messages, temperature = 0.7, max_tokens = 500, system, stream = false } = req.body;
@@ -66,8 +88,7 @@ export default async function handler(req, res) {
 
     const data = await response.json();
     return res.status(200).json({ content: data.content?.[0]?.text || '', usage: data.usage });
-  } catch (error) {
-    console.error('Claude API error:', error);
+  } catch {
     return res.status(500).json({ error: 'Internal server error' });
   }
 }

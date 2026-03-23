@@ -144,7 +144,7 @@ function IstmoStoryDemo() {
         onStream: model === 'openai' ? (text) => setStory(text) : undefined,
       }).then(text => { if (model === 'claude') setStory(text); });
     } catch (err) {
-      setError(err.message);
+      setError(err?.message || 'Error desconocido');
     }
 
     setGenerating(false);
@@ -271,7 +271,7 @@ Sé conciso. Contexto: Panamá (cédulas formato X-XXX-XXXX).`
         onStream: model === 'openai' ? (text) => setResult(text) : undefined,
       }).then(text => { if (model === 'claude') setResult(text); });
     } catch (err) {
-      setError(err.message);
+      setError(err?.message || 'Error desconocido');
     }
 
     setAnalyzing(false);
@@ -367,7 +367,7 @@ Sé específico y preciso con detalles de Panamá.`
         onStream: model === 'openai' ? (text) => setResult(text) : undefined,
       }).then(text => { if (model === 'claude') setResult(text); });
     } catch (err) {
-      setError(err.message);
+      setError(err?.message || 'Error desconocido');
     }
 
     setAnalyzing(false);
@@ -489,7 +489,7 @@ Sé preciso y cita las fuentes.`
         onStream: model === 'openai' ? (text) => setResult(text) : undefined,
       }).then(text => { if (model === 'claude') setResult(text); });
     } catch (err) {
-      setError(err.message);
+      setError(err?.message || 'Error desconocido');
     }
 
     setSearchPhase('');
