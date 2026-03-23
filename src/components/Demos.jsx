@@ -283,10 +283,10 @@ function VisionDemo() {
   const [error, setError] = useState(null);
 
   const images = [
-    { name: 'Canal de Panamá', emoji: '🚢', scene: 'Las esclusas de Miraflores del Canal de Panamá con un buque portacontenedores cruzando. Agua turquesa, compuertas metálicas masivas, vegetación tropical alrededor.' },
-    { name: 'Selva Tropical', emoji: '🌴', scene: 'Selva tropical del Darién en Panamá. Vegetación exuberante, árboles gigantes, niebla matutina, un río cristalino. Aves coloridas (tucanes, quetzales).' },
-    { name: 'Casco Viejo', emoji: '🏛️', scene: 'Casco Viejo de Panamá. Edificios coloniales restaurados con balcones de hierro forjado, calles empedradas, iglesia al fondo, atardecer dorado.' },
-    { name: 'Skyline Ciudad', emoji: '🏙️', scene: 'Skyline de Ciudad de Panamá desde la Cinta Costera. Rascacielos modernos (F&F Tower, JW Marriott), bahía de Panamá, atardecer naranja y púrpura.' }
+    { name: 'Canal de Panamá', img: 'https://images.unsplash.com/photo-1558383817-bf8e0f78085d?w=600&q=80', scene: 'Las esclusas de Miraflores del Canal de Panamá con un buque portacontenedores cruzando. Agua turquesa, compuertas metálicas masivas, vegetación tropical alrededor.' },
+    { name: 'Selva Tropical', img: 'https://images.unsplash.com/photo-1574786527860-f6e06e1a0576?w=600&q=80', scene: 'Selva tropical del Darién en Panamá. Vegetación exuberante, árboles gigantes, niebla matutina, un río cristalino. Aves coloridas (tucanes, quetzales).' },
+    { name: 'Casco Viejo', img: 'https://images.unsplash.com/photo-1565608438257-fac3c27beb36?w=600&q=80', scene: 'Casco Viejo de Panamá. Edificios coloniales restaurados con balcones de hierro forjado, calles empedradas, iglesia al fondo, atardecer dorado.' },
+    { name: 'Skyline Ciudad', img: 'https://images.unsplash.com/photo-1566396588783-0c4737e41e69?w=600&q=80', scene: 'Skyline de Ciudad de Panamá desde la Cinta Costera. Rascacielos modernos (F&F Tower, JW Marriott), bahía de Panamá, atardecer naranja y púrpura.' }
   ];
 
   const analyzeImage = async () => {
@@ -326,17 +326,27 @@ Sé específico y preciso con detalles de Panamá.`
 
   return (
     <div className="space-y-6">
+      {/* Image selector thumbnails */}
       <div className="grid grid-cols-4 gap-3">
         {images.map((img, i) => (
           <button key={i}
             onClick={() => { setSelectedImage(i); setResult(''); }}
-            className={`p-4 rounded-xl border transition-all ${
-              selectedImage === i ? 'border-primary bg-primary/10' : 'border-white/10 bg-white/5 hover:bg-white/10'
+            className={`rounded-xl border overflow-hidden transition-all ${
+              selectedImage === i ? 'border-primary ring-2 ring-primary/30' : 'border-white/10 hover:border-white/30'
             }`}>
-            <div className="text-3xl mb-2">{img.emoji}</div>
-            <div className="text-xs text-gray-400">{img.name}</div>
+            <img src={img.img} alt={img.name} className="w-full h-20 object-cover" />
+            <div className="px-2 py-1.5 bg-black/60 text-xs text-gray-300 text-center">{img.name}</div>
           </button>
         ))}
+      </div>
+
+      {/* Selected image preview */}
+      <div className="relative rounded-xl overflow-hidden border border-white/10">
+        <img src={images[selectedImage].img} alt={images[selectedImage].name}
+          className="w-full h-64 object-cover" />
+        <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
+          <span className="text-sm text-white font-medium">{images[selectedImage].name}</span>
+        </div>
       </div>
 
       <div className="flex items-center gap-4">
