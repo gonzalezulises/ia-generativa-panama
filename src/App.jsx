@@ -12,6 +12,7 @@ import Cases from './components/Cases';
 import Takeaways from './components/Takeaways';
 import CoursesCTA from './components/CoursesCTA';
 import Resources from './components/Resources';
+import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Takeaways />
           <CoursesCTA />
           <Resources />
+          <FAQ />
         </main>
         <Footer />
       </div>
