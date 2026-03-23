@@ -1,9 +1,9 @@
 import { useState, useRef, useCallback, createContext, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PenTool, Code, Eye, FileSearch, Sparkles, RefreshCw, Copy, Check, Thermometer, AlertCircle, Repeat } from 'lucide-react';
+import { PenTool, Code, Eye, FileSearch, Sparkles, RefreshCw, Copy, Check, Thermometer, AlertCircle, Repeat, Lock, Unlock } from 'lucide-react';
 
-// Model context — shared across all demos
-const ModelContext = createContext({ model: 'openai', setModel: () => {} });
+// Model + presenter context — shared across all demos
+const ModelContext = createContext({ model: 'openai', setModel: () => {}, presenterMode: false });
 
 const MODELS = {
   openai: { label: 'GPT-4o-mini', provider: 'OpenAI', color: '#10a37f' },
@@ -42,113 +42,62 @@ function ModelSelector() {
   );
 }
 
-// API helpers
-const OPENAI_KEY = import.meta.env.VITE_OPENAI_API_KEY;
+// API helpers — all calls go through serverless functions (keys never in frontend)
 
-async function callOpenAI({ messages, temperature = 0.7, max_tokens = 500, onStream }) {
-  if (!OPENAI_KEY) throw new Error('VITE_OPENAI_API_KEY no configurada en .env');
+async function streamSSE(res, onStream) {
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let fullText = '';
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    const chunk = decoder.decode(value, { stream: true });
+    for (const line of chunk.split('\n').filter(l => l.startsWith('data: '))) {
+      const data = line.slice(6);
+      if (data === '[DONE]') continue;
+      try {
+        const parsed = JSON.parse(data);
+        const delta = parsed.choices?.[0]?.delta?.content || parsed.delta?.text || '';
+        if (delta) { fullText += delta; onStream(fullText); }
+      } catch { /* skip */ }
+    }
+  }
+  return fullText;
+}
 
-  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+async function callAI({ model = 'openai', messages, temperature = 0.7, max_tokens = 500, onStream, presenterKey }) {
+  if (!presenterKey) throw new Error('Activa el modo presentador para usar los demos en vivo');
+
+  const endpoint = model === 'claude' ? '/api/claude' : '/api/generate';
+
+  // For Claude, extract system message
+  let body = { messages, temperature, max_tokens, stream: !!onStream };
+  if (model === 'claude') {
+    const sysIdx = messages.findIndex(m => m.role === 'system');
+    if (sysIdx !== -1) {
+      body.system = messages[sysIdx].content;
+      body.messages = messages.filter((_, i) => i !== sysIdx);
+    }
+  }
+
+  const res = await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${OPENAI_KEY}`,
+      'x-presenter-key': presenterKey,
     },
-    body: JSON.stringify({
-      model: 'gpt-4o-mini',
-      messages,
-      temperature: Math.min(Math.max(temperature, 0), 2),
-      max_tokens: Math.min(max_tokens, 1000),
-      stream: !!onStream,
-    }),
+    body: JSON.stringify(body),
   });
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.error?.message || `OpenAI error ${res.status}`);
+    throw new Error(err.error || `Error ${res.status}`);
   }
 
-  if (onStream) {
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let fullText = '';
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      const chunk = decoder.decode(value, { stream: true });
-      for (const line of chunk.split('\n').filter(l => l.startsWith('data: '))) {
-        const data = line.slice(6);
-        if (data === '[DONE]') continue;
-        try {
-          fullText += JSON.parse(data).choices?.[0]?.delta?.content || '';
-          onStream(fullText);
-        } catch { /* skip */ }
-      }
-    }
-    return fullText;
-  }
-
-  const data = await res.json();
-  return data.choices?.[0]?.message?.content || '';
-}
-
-async function callClaude({ messages, system, temperature = 0.7, max_tokens = 500, onStream }) {
-  // Extract system message from messages array if not provided separately
-  let sysMsg = system;
-  let userMsgs = messages;
-  if (!sysMsg) {
-    const sysIdx = messages.findIndex(m => m.role === 'system');
-    if (sysIdx !== -1) {
-      sysMsg = messages[sysIdx].content;
-      userMsgs = messages.filter((_, i) => i !== sysIdx);
-    }
-  }
-
-  const res = await fetch('/api/claude', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      messages: userMsgs,
-      system: sysMsg,
-      temperature: Math.min(Math.max(temperature, 0), 1),
-      max_tokens,
-      stream: !!onStream,
-    }),
-  });
-
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.error || `Claude error ${res.status}`);
-  }
-
-  if (onStream) {
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let fullText = '';
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      const chunk = decoder.decode(value, { stream: true });
-      for (const line of chunk.split('\n').filter(l => l.startsWith('data: '))) {
-        const data = line.slice(6);
-        if (data === '[DONE]') continue;
-        try {
-          const parsed = JSON.parse(data);
-          const delta = parsed.delta?.text || parsed.choices?.[0]?.delta?.content || '';
-          if (delta) { fullText += delta; onStream(fullText); }
-        } catch { /* skip */ }
-      }
-    }
-    return fullText;
-  }
+  if (onStream) return streamSSE(res, onStream);
 
   const data = await res.json();
   return data.content || '';
-}
-
-function callAI(opts) {
-  const model = opts.model || 'openai';
-  return model === 'claude' ? callClaude(opts) : callOpenAI(opts);
 }
 
 // Temperature indicator
@@ -160,7 +109,7 @@ function TempIndicator({ value }) {
 
 // Demo 1: IstmoStory Studio — Real AI generation
 function IstmoStoryDemo() {
-  const { model } = useContext(ModelContext);
+  const { model, presenterKey } = useContext(ModelContext);
   const [tema, setTema] = useState('Canal de Panamá');
   const [tono, setTono] = useState('inspirador');
   const [temperatura, setTemperatura] = useState(0.7);
@@ -179,7 +128,7 @@ function IstmoStoryDemo() {
 
     try {
       await callAI({
-        model,
+        model, presenterKey,
         messages: [
           {
             role: 'system',
@@ -277,7 +226,7 @@ function IstmoStoryDemo() {
 
 // Demo 2: Code Mentor — Real AI analysis
 function CodeMentorDemo() {
-  const { model } = useContext(ModelContext);
+  const { model, presenterKey } = useContext(ModelContext);
   const [code, setCode] = useState(`function validarCedula(cedula) {
   // TODO: Implementar validación
   return true;
@@ -374,7 +323,7 @@ Sé conciso. Contexto: Panamá (cédulas formato X-XXX-XXXX).`
 
 // Demo 3: Vision Explainer — AI-powered image description
 function VisionDemo() {
-  const { model } = useContext(ModelContext);
+  const { model, presenterKey } = useContext(ModelContext);
   const [selectedImage, setSelectedImage] = useState(0);
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState('');
@@ -485,7 +434,7 @@ Sé específico y preciso con detalles de Panamá.`
 
 // Demo 4: RAG + Agent — AI-powered Q&A
 function RAGDemo() {
-  const { model } = useContext(ModelContext);
+  const { model, presenterKey } = useContext(ModelContext);
   const [question, setQuestion] = useState('');
   const [searching, setSearching] = useState(false);
   const [searchPhase, setSearchPhase] = useState('');
@@ -607,6 +556,8 @@ Sé preciso y cita las fuentes.`
 export default function Demos() {
   const [activeDemo, setActiveDemo] = useState(0);
   const [model, setModel] = useState('openai');
+  const [presenterKey, setPresenterKey] = useState('');
+  const [showKeyInput, setShowKeyInput] = useState(false);
 
   const demos = [
     { id: 0, title: 'IstmoStory Studio', subtitle: 'Generación de Contenido', icon: PenTool, color: '#00B4D8', component: IstmoStoryDemo },
@@ -618,7 +569,7 @@ export default function Demos() {
   const ActiveComponent = demos[activeDemo].component;
 
   return (
-    <ModelContext.Provider value={{ model, setModel }}>
+    <ModelContext.Provider value={{ model, setModel, presenterKey }}>
       <section id="demos" className="py-24 relative bg-bg-dark">
         <div className="absolute inset-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
@@ -640,6 +591,42 @@ export default function Demos() {
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
               Cambia entre OpenAI y Claude en cada demo. Ajusta la temperatura y compara resultados.
             </p>
+
+            {/* Presenter mode toggle */}
+            <div className="mt-6 flex justify-center">
+              {presenterKey ? (
+                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+                  <Unlock className="w-4 h-4 text-emerald-400" />
+                  <span className="text-sm text-emerald-400 font-medium">Modo presentador activo</span>
+                  <button onClick={() => setPresenterKey('')} className="ml-2 text-xs text-gray-500 hover:text-red-400 transition-colors">Desactivar</button>
+                </div>
+              ) : showKeyInput ? (
+                <div className="flex items-center gap-2">
+                  <input
+                    type="password"
+                    placeholder="Clave de presentador"
+                    autoFocus
+                    className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:border-primary focus:outline-none w-48"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && e.target.value) {
+                        setPresenterKey(e.target.value);
+                        setShowKeyInput(false);
+                      }
+                      if (e.key === 'Escape') setShowKeyInput(false);
+                    }}
+                  />
+                  <button onClick={() => setShowKeyInput(false)} className="text-xs text-gray-500 hover:text-white">Cancelar</button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setShowKeyInput(true)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
+                >
+                  <Lock className="w-4 h-4 text-gray-400" />
+                  <span className="text-sm text-gray-400">Demos bloqueados — clic para activar modo presentador</span>
+                </button>
+              )}
+            </div>
           </motion.div>
 
           <div className="flex flex-wrap justify-center gap-3 mb-10">

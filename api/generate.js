@@ -1,4 +1,4 @@
-// Vercel Serverless — proxies to Anthropic API
+// Vercel Serverless — proxies to OpenAI
 // Keys are server-side only (not exposed in frontend bundle)
 
 export default async function handler(req, res) {
@@ -15,37 +15,33 @@ export default async function handler(req, res) {
     return res.status(403).json({ error: 'Modo presentador no activado' });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: 'ANTHROPIC_API_KEY not configured' });
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) return res.status(500).json({ error: 'OPENAI_API_KEY not configured' });
 
   try {
-    const { messages, temperature = 0.7, max_tokens = 500, system, stream = false } = req.body;
+    const { messages, temperature = 0.7, max_tokens = 500, stream = false } = req.body;
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({ error: 'messages array required' });
     }
 
-    const body = {
-      model: 'claude-sonnet-4-20250514',
-      messages,
-      temperature: Math.min(Math.max(temperature, 0), 1),
-      max_tokens: Math.min(max_tokens, 1000),
-      stream,
-    };
-    if (system) body.system = system;
-
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
+        'Authorization': `Bearer ${apiKey}`,
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages,
+        temperature: Math.min(Math.max(temperature, 0), 2),
+        max_tokens: Math.min(max_tokens, 1000),
+        stream,
+      }),
     });
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
-      return res.status(response.status).json({ error: error.error?.message || 'Anthropic API error' });
+      return res.status(response.status).json({ error: error.error?.message || 'OpenAI API error' });
     }
 
     if (stream) {
@@ -65,9 +61,9 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-    return res.status(200).json({ content: data.content?.[0]?.text || '', usage: data.usage });
+    return res.status(200).json({ content: data.choices?.[0]?.message?.content || '', usage: data.usage });
   } catch (error) {
-    console.error('Claude API error:', error);
+    console.error('OpenAI API error:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 }
