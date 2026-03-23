@@ -10,6 +10,7 @@ const navItems = [
   { label: 'Timeline', href: '#timeline' },
   { label: 'Panamá', href: '#panama-map' },
   { label: 'Casos', href: '#cases' },
+  { label: 'Recursos', href: '#resources' },
 ];
 
 export default function Navbar() {

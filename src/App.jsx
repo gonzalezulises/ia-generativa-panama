@@ -7,6 +7,7 @@ import Timeline from './components/Timeline';
 import LLMDemo from './components/LLMDemo';
 import PanamaMap from './components/PanamaMap';
 import Cases from './components/Cases';
+import Resources from './components/Resources';
 import Footer from './components/Footer';
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           <PanamaMap />
           <Stats />
           <Cases />
+          <Resources />
         </main>
         <Footer />
       </div>
