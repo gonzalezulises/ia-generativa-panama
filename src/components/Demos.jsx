@@ -6,26 +6,39 @@ import { PenTool, Code, Eye, FileSearch, Sparkles, RefreshCw, Copy, Check, Therm
 const ModelContext = createContext({ model: 'openai', setModel: () => {} });
 
 const MODELS = {
-  openai: { label: 'GPT-4o-mini', provider: 'OpenAI', color: '#10B981' },
-  claude: { label: 'Claude Sonnet', provider: 'Anthropic', color: '#8B5CF6' },
+  openai: { label: 'GPT-4o-mini', provider: 'OpenAI', color: '#10a37f' },
+  claude: { label: 'Claude Sonnet', provider: 'Anthropic', color: '#d97706' },
 };
 
-// Model selector component
+// Model selector — two buttons with brand colors
 function ModelSelector() {
   const { model, setModel } = useContext(ModelContext);
-  const current = MODELS[model];
-  const other = model === 'openai' ? 'claude' : 'openai';
 
   return (
-    <button
-      onClick={() => setModel(other)}
-      className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-sm"
-      title="Cambiar modelo"
-    >
-      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: current.color }} />
-      <span className="text-gray-300 font-medium">{current.label}</span>
-      <Repeat className="w-3 h-3 text-gray-500" />
-    </button>
+    <div className="flex gap-1.5">
+      <button
+        onClick={() => setModel('openai')}
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+          model === 'openai'
+            ? 'bg-[#10a37f]/20 border border-[#10a37f]/50 text-[#10a37f]'
+            : 'bg-white/5 border border-white/10 text-gray-500 hover:text-gray-300'
+        }`}
+      >
+        <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/></svg>
+        GPT-4o-mini
+      </button>
+      <button
+        onClick={() => setModel('claude')}
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+          model === 'claude'
+            ? 'bg-[#d97706]/20 border border-[#d97706]/50 text-[#d97706]'
+            : 'bg-white/5 border border-white/10 text-gray-500 hover:text-gray-300'
+        }`}
+      >
+        <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current"><path d="M4.709 15.955l4.72-2.756.08-.046 2.803-1.636a.205.205 0 0 0 0-.355L8.088 8.522 4.709 6.522a.205.205 0 0 1 0-.355L12 2l7.291 4.167a.205.205 0 0 1 0 .355l-3.379 2-4.224 2.64a.205.205 0 0 0 0 .355l4.224 2.64 3.379 2a.205.205 0 0 1 0 .355L12 18.679l-7.291-4.167a.205.205 0 0 1 0-.355z"/></svg>
+        Claude Sonnet
+      </button>
+    </div>
   );
 }
 
