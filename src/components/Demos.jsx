@@ -1,12 +1,39 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, createContext, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PenTool, Code, Eye, FileSearch, Sparkles, RefreshCw, Copy, Check, Thermometer, AlertCircle } from 'lucide-react';
+import { PenTool, Code, Eye, FileSearch, Sparkles, RefreshCw, Copy, Check, Thermometer, AlertCircle, Repeat } from 'lucide-react';
 
-// API helper — calls OpenAI directly
+// Model context — shared across all demos
+const ModelContext = createContext({ model: 'openai', setModel: () => {} });
+
+const MODELS = {
+  openai: { label: 'GPT-4o-mini', provider: 'OpenAI', color: '#10B981' },
+  claude: { label: 'Claude Sonnet', provider: 'Anthropic', color: '#8B5CF6' },
+};
+
+// Model selector component
+function ModelSelector() {
+  const { model, setModel } = useContext(ModelContext);
+  const current = MODELS[model];
+  const other = model === 'openai' ? 'claude' : 'openai';
+
+  return (
+    <button
+      onClick={() => setModel(other)}
+      className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-sm"
+      title="Cambiar modelo"
+    >
+      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: current.color }} />
+      <span className="text-gray-300 font-medium">{current.label}</span>
+      <Repeat className="w-3 h-3 text-gray-500" />
+    </button>
+  );
+}
+
+// API helpers
 const OPENAI_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
-async function callAI({ messages, temperature = 0.7, max_tokens = 500, onStream }) {
-  if (!OPENAI_KEY) throw new Error('API key no configurada. Agrega VITE_OPENAI_API_KEY al .env');
+async function callOpenAI({ messages, temperature = 0.7, max_tokens = 500, onStream }) {
+  if (!OPENAI_KEY) throw new Error('VITE_OPENAI_API_KEY no configurada en .env');
 
   const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -25,29 +52,22 @@ async function callAI({ messages, temperature = 0.7, max_tokens = 500, onStream 
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.error?.message || `Error ${res.status}`);
+    throw new Error(err.error?.message || `OpenAI error ${res.status}`);
   }
 
-  // Streaming
   if (onStream) {
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
     let fullText = '';
-
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-
       const chunk = decoder.decode(value, { stream: true });
-      const lines = chunk.split('\n').filter(l => l.startsWith('data: '));
-
-      for (const line of lines) {
+      for (const line of chunk.split('\n').filter(l => l.startsWith('data: '))) {
         const data = line.slice(6);
         if (data === '[DONE]') continue;
         try {
-          const parsed = JSON.parse(data);
-          const delta = parsed.choices?.[0]?.delta?.content || '';
-          fullText += delta;
+          fullText += JSON.parse(data).choices?.[0]?.delta?.content || '';
           onStream(fullText);
         } catch { /* skip */ }
       }
@@ -59,6 +79,65 @@ async function callAI({ messages, temperature = 0.7, max_tokens = 500, onStream 
   return data.choices?.[0]?.message?.content || '';
 }
 
+async function callClaude({ messages, system, temperature = 0.7, max_tokens = 500, onStream }) {
+  // Extract system message from messages array if not provided separately
+  let sysMsg = system;
+  let userMsgs = messages;
+  if (!sysMsg) {
+    const sysIdx = messages.findIndex(m => m.role === 'system');
+    if (sysIdx !== -1) {
+      sysMsg = messages[sysIdx].content;
+      userMsgs = messages.filter((_, i) => i !== sysIdx);
+    }
+  }
+
+  const res = await fetch('/api/claude', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      messages: userMsgs,
+      system: sysMsg,
+      temperature: Math.min(Math.max(temperature, 0), 1),
+      max_tokens,
+      stream: !!onStream,
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || `Claude error ${res.status}`);
+  }
+
+  if (onStream) {
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let fullText = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value, { stream: true });
+      for (const line of chunk.split('\n').filter(l => l.startsWith('data: '))) {
+        const data = line.slice(6);
+        if (data === '[DONE]') continue;
+        try {
+          const parsed = JSON.parse(data);
+          const delta = parsed.delta?.text || parsed.choices?.[0]?.delta?.content || '';
+          if (delta) { fullText += delta; onStream(fullText); }
+        } catch { /* skip */ }
+      }
+    }
+    return fullText;
+  }
+
+  const data = await res.json();
+  return data.content || '';
+}
+
+function callAI(opts) {
+  const model = opts.model || 'openai';
+  return model === 'claude' ? callClaude(opts) : callOpenAI(opts);
+}
+
 // Temperature indicator
 function TempIndicator({ value }) {
   const label = value <= 0.3 ? 'Preciso' : value <= 0.7 ? 'Balanceado' : value <= 1.2 ? 'Creativo' : 'Experimental';
@@ -68,6 +147,7 @@ function TempIndicator({ value }) {
 
 // Demo 1: IstmoStory Studio — Real AI generation
 function IstmoStoryDemo() {
+  const { model } = useContext(ModelContext);
   const [tema, setTema] = useState('Canal de Panamá');
   const [tono, setTono] = useState('inspirador');
   const [temperatura, setTemperatura] = useState(0.7);
@@ -86,6 +166,7 @@ function IstmoStoryDemo() {
 
     try {
       await callAI({
+        model,
         messages: [
           {
             role: 'system',
@@ -98,8 +179,8 @@ function IstmoStoryDemo() {
         ],
         temperature: temperatura,
         max_tokens: 300,
-        onStream: (text) => setStory(text),
-      });
+        onStream: model === 'openai' ? (text) => setStory(text) : undefined,
+      }).then(text => { if (model === 'claude') setStory(text); });
     } catch (err) {
       setError(err.message);
     }
@@ -151,9 +232,10 @@ function IstmoStoryDemo() {
         {generating ? (
           <><RefreshCw className="w-4 h-4 animate-spin" /> Generando con IA...</>
         ) : (
-          <><Sparkles className="w-4 h-4" /> Generar con GPT-4o-mini</>
+          <><Sparkles className="w-4 h-4" /> Generar</>
         )}
       </button>
+      <ModelSelector />
 
       {error && (
         <div className="flex items-center gap-2 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
@@ -172,7 +254,7 @@ function IstmoStoryDemo() {
           )}
           <div className="mt-3 pt-3 border-t border-white/5 flex items-center gap-4 text-xs text-gray-500">
             <span>Temp: {temperatura.toFixed(1)}</span>
-            <span>Modelo: gpt-4o-mini</span>
+            <span>Modelo: {MODELS[model]?.label}</span>
           </div>
         </motion.div>
       )}
@@ -182,6 +264,7 @@ function IstmoStoryDemo() {
 
 // Demo 2: Code Mentor — Real AI analysis
 function CodeMentorDemo() {
+  const { model } = useContext(ModelContext);
   const [code, setCode] = useState(`function validarCedula(cedula) {
   // TODO: Implementar validación
   return true;
@@ -220,10 +303,11 @@ Sé conciso. Contexto: Panamá (cédulas formato X-XXX-XXXX).`
           },
           { role: 'user', content: `Analiza este código:\n\`\`\`\n${code}\n\`\`\`` }
         ],
+        model,
         temperature: temperatura,
         max_tokens: 800,
-        onStream: (text) => setResult(text),
-      });
+        onStream: model === 'openai' ? (text) => setResult(text) : undefined,
+      }).then(text => { if (model === 'claude') setResult(text); });
     } catch (err) {
       setError(err.message);
     }
@@ -244,9 +328,10 @@ Sé conciso. Contexto: Panamá (cédulas formato X-XXX-XXXX).`
           {analyzing ? (
             <><RefreshCw className="w-4 h-4 animate-spin" /> Analizando...</>
           ) : (
-            <><Code className="w-4 h-4" /> Analizar con IA</>
+            <><Code className="w-4 h-4" /> Analizar</>
           )}
         </button>
+        <ModelSelector />
         <div className="flex items-center gap-2 flex-1">
           <Thermometer className="w-3 h-3 text-gray-500" />
           <input type="range" min="0" max="1" step="0.1" value={temperatura}
@@ -276,6 +361,7 @@ Sé conciso. Contexto: Panamá (cédulas formato X-XXX-XXXX).`
 
 // Demo 3: Vision Explainer — AI-powered image description
 function VisionDemo() {
+  const { model } = useContext(ModelContext);
   const [selectedImage, setSelectedImage] = useState(0);
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState('');
@@ -313,10 +399,11 @@ Sé específico y preciso con detalles de Panamá.`
           },
           { role: 'user', content: `Analiza esta imagen: ${images[selectedImage].scene}` }
         ],
+        model,
         temperature: temperatura,
         max_tokens: 400,
-        onStream: (text) => setResult(text),
-      });
+        onStream: model === 'openai' ? (text) => setResult(text) : undefined,
+      }).then(text => { if (model === 'claude') setResult(text); });
     } catch (err) {
       setError(err.message);
     }
@@ -354,9 +441,10 @@ Sé específico y preciso con detalles de Panamá.`
           {analyzing ? (
             <><RefreshCw className="w-4 h-4 animate-spin" /> Analizando...</>
           ) : (
-            <><Eye className="w-4 h-4" /> Analizar con IA</>
+            <><Eye className="w-4 h-4" /> Analizar</>
           )}
         </button>
+        <ModelSelector />
         <div className="flex items-center gap-2 flex-1">
           <Thermometer className="w-3 h-3 text-gray-500" />
           <input type="range" min="0" max="1.5" step="0.1" value={temperatura}
@@ -384,6 +472,7 @@ Sé específico y preciso con detalles de Panamá.`
 
 // Demo 4: RAG + Agent — AI-powered Q&A
 function RAGDemo() {
+  const { model } = useContext(ModelContext);
   const [question, setQuestion] = useState('');
   const [searching, setSearching] = useState(false);
   const [searchPhase, setSearchPhase] = useState('');
@@ -432,10 +521,11 @@ Sé preciso y cita las fuentes.`
           },
           { role: 'user', content: q }
         ],
+        model,
         temperature: temperatura,
         max_tokens: 500,
-        onStream: (text) => setResult(text),
-      });
+        onStream: model === 'openai' ? (text) => setResult(text) : undefined,
+      }).then(text => { if (model === 'claude') setResult(text); });
     } catch (err) {
       setError(err.message);
     }
@@ -467,6 +557,7 @@ Sé preciso y cita las fuentes.`
       </div>
 
       <div className="flex items-center gap-2">
+        <ModelSelector />
         <Thermometer className="w-3 h-3 text-gray-500" />
         <input type="range" min="0" max="1" step="0.1" value={temperatura}
           onChange={(e) => setTemperatura(parseFloat(e.target.value))}
@@ -502,6 +593,7 @@ Sé preciso y cita las fuentes.`
 // Main Demos component
 export default function Demos() {
   const [activeDemo, setActiveDemo] = useState(0);
+  const [model, setModel] = useState('openai');
 
   const demos = [
     { id: 0, title: 'IstmoStory Studio', subtitle: 'Generación de Contenido', icon: PenTool, color: '#00B4D8', component: IstmoStoryDemo },
@@ -513,53 +605,55 @@ export default function Demos() {
   const ActiveComponent = demos[activeDemo].component;
 
   return (
-    <section id="demos" className="py-24 relative bg-bg-dark">
-      <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
-      </div>
-
-      <div className="relative max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <span className="inline-block px-4 py-1 rounded-full bg-primary/10 text-sm text-primary font-medium mb-4">
-            Demos en Vivo con IA Real
-          </span>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
-            4 <span className="gradient-text">Demos</span> con GPT-4o-mini
-          </h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Generación real con OpenAI. Ajusta la temperatura y observa cómo cambia el resultado.
-          </p>
-        </motion.div>
-
-        <div className="flex flex-wrap justify-center gap-3 mb-10">
-          {demos.map((demo) => {
-            const Icon = demo.icon;
-            return (
-              <button key={demo.id} onClick={() => setActiveDemo(demo.id)}
-                className={`flex items-center gap-3 px-5 py-3 rounded-xl transition-all ${
-                  activeDemo === demo.id ? 'bg-white/10 border-2' : 'bg-white/5 border border-white/10 hover:bg-white/10'
-                }`}
-                style={{ borderColor: activeDemo === demo.id ? demo.color : undefined }}>
-                <Icon className="w-5 h-5" style={{ color: demo.color }} />
-                <div className="text-left">
-                  <div className="text-white font-medium text-sm">{demo.title}</div>
-                  <div className="text-gray-500 text-xs">{demo.subtitle}</div>
-                </div>
-              </button>
-            );
-          })}
+    <ModelContext.Provider value={{ model, setModel }}>
+      <section id="demos" className="py-24 relative bg-bg-dark">
+        <div className="absolute inset-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
         </div>
 
-        <motion.div key={activeDemo} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          className="glass rounded-2xl p-8">
-          <ActiveComponent />
-        </motion.div>
-      </div>
-    </section>
+        <div className="relative max-w-6xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <span className="inline-block px-4 py-1 rounded-full bg-primary/10 text-sm text-primary font-medium mb-4">
+              Demos en Vivo — Multi-herramienta
+            </span>
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
+              4 <span className="gradient-text">Demos</span> con IA Real
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Cambia entre OpenAI y Claude en cada demo. Ajusta la temperatura y compara resultados.
+            </p>
+          </motion.div>
+
+          <div className="flex flex-wrap justify-center gap-3 mb-10">
+            {demos.map((demo) => {
+              const Icon = demo.icon;
+              return (
+                <button key={demo.id} onClick={() => setActiveDemo(demo.id)}
+                  className={`flex items-center gap-3 px-5 py-3 rounded-xl transition-all ${
+                    activeDemo === demo.id ? 'bg-white/10 border-2' : 'bg-white/5 border border-white/10 hover:bg-white/10'
+                  }`}
+                  style={{ borderColor: activeDemo === demo.id ? demo.color : undefined }}>
+                  <Icon className="w-5 h-5" style={{ color: demo.color }} />
+                  <div className="text-left">
+                    <div className="text-white font-medium text-sm">{demo.title}</div>
+                    <div className="text-gray-500 text-xs">{demo.subtitle}</div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          <motion.div key={activeDemo} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            className="glass rounded-2xl p-8">
+            <ActiveComponent />
+          </motion.div>
+        </div>
+      </section>
+    </ModelContext.Provider>
   );
 }
