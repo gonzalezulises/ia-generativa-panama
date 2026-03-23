@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Agenda from './components/Agenda';
+import WhatIsGenAI from './components/WhatIsGenAI';
+import LLMDemo from './components/LLMDemo';
 import Demos from './components/Demos';
 import Stats from './components/Stats';
 import Timeline from './components/Timeline';
-import LLMDemo from './components/LLMDemo';
 import PanamaMap from './components/PanamaMap';
 import Cases from './components/Cases';
+import Takeaways from './components/Takeaways';
+import CoursesCTA from './components/CoursesCTA';
 import Resources from './components/Resources';
 import Footer from './components/Footer';
 
@@ -31,12 +35,16 @@ function App() {
         <Navbar />
         <main>
           <Hero />
+          <Agenda />
+          <WhatIsGenAI />
+          <Stats />
           <LLMDemo />
           <Demos />
           <Timeline />
           <PanamaMap />
-          <Stats />
           <Cases />
+          <Takeaways />
+          <CoursesCTA />
           <Resources />
         </main>
         <Footer />

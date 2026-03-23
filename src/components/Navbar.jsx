@@ -5,12 +5,12 @@ import { TecnasaLogoCompact } from './TecnasaLogo';
 
 const navItems = [
   { label: 'Inicio', href: '#hero' },
+  { label: '¿Qué es?', href: '#what-is-genai' },
   { label: 'Fundamentos', href: '#fundamentals' },
   { label: 'Demos', href: '#demos' },
-  { label: 'Timeline', href: '#timeline' },
-  { label: 'Panamá', href: '#panama-map' },
+  { label: 'Sectores', href: '#panama-map' },
   { label: 'Casos', href: '#cases' },
-  { label: 'Recursos', href: '#resources' },
+  { label: 'Academy', href: '#courses' },
 ];
 
 export default function Navbar() {
