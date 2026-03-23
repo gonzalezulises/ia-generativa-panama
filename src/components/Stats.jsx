@@ -135,7 +135,7 @@ export default function Stats() {
             Panamá en <span className="gradient-text">Números</span>
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Estadísticas clave sobre el estado de la IA en el ecosistema panameño
+            Datos que todo líder debe conocer para tomar decisiones informadas sobre IA
           </p>
         </motion.div>
 

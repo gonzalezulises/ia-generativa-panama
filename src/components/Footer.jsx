@@ -1,31 +1,22 @@
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Twitter, Mail, ArrowUp } from 'lucide-react';
+import { Linkedin, Mail, ArrowUp } from 'lucide-react';
 import { TecnasaLogoCompact } from './TecnasaLogo';
 
 const links = {
-  producto: [
+  contenido: [
+    { label: 'Demos en Vivo', href: '#demos' },
     { label: 'Fundamentos', href: '#fundamentals' },
-    { label: 'Timeline', href: '#timeline' },
-    { label: 'Mapa Panamá', href: '#panama-map' },
-    { label: 'Casos de Uso', href: '#cases' }
+    { label: 'Timeline IA', href: '#timeline' },
+    { label: 'Casos Reales', href: '#cases' }
   ],
   recursos: [
+    { label: 'Mapa IA Panamá', href: '#panama-map' },
     { label: 'Estadísticas', href: '#stats' },
-    { label: 'Documentación', href: '#' },
-    { label: 'API', href: '#' },
-    { label: 'Blog', href: '#' }
-  ],
-  legal: [
-    { label: 'Privacidad', href: '#' },
-    { label: 'Términos', href: '#' },
-    { label: 'Cookies', href: '#' }
   ]
 };
 
 const social = [
-  { icon: Twitter, href: '#', label: 'Twitter' },
   { icon: Linkedin, href: '#', label: 'LinkedIn' },
-  { icon: Github, href: '#', label: 'GitHub' },
   { icon: Mail, href: '#', label: 'Email' }
 ];
 
@@ -45,14 +36,14 @@ export default function Footer() {
 
       <div className="relative max-w-7xl mx-auto px-6">
         {/* Main footer content */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand column */}
           <div className="lg:col-span-2">
             <a href="#hero" className="inline-block mb-6">
               <TecnasaLogoCompact />
             </a>
             <p className="text-gray-400 mb-6 max-w-sm">
-              IAG 101 Fundamentos de IA Generativa. Un webinar gratuito presentado por Tecnasa U Learning Centers para transformar tu organización con inteligencia artificial.
+              Introducción a la IA Generativa. Presentación interactiva de Tecnasa U Learning Centers.
             </p>
 
             {/* Social links */}
@@ -76,7 +67,7 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-white mb-4">Contenido</h4>
             <ul className="space-y-3">
-              {links.producto.map((link) => (
+              {links.contenido.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
@@ -104,63 +95,15 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-
-          <div>
-            <h4 className="font-semibold text-white mb-4">Legal</h4>
-            <ul className="space-y-3">
-              {links.legal.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-gray-400 hover:text-primary transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Newsletter */}
-        <div className="glass rounded-2xl p-8 mb-16">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div>
-              <h3 className="text-xl font-display font-bold text-white mb-2">
-                Recibe el material del webinar
-              </h3>
-              <p className="text-gray-400">
-                Slides, recursos y guía práctica de IA Generativa
-              </p>
-            </div>
-            <div className="flex gap-3 w-full md:w-auto">
-              <input
-                type="email"
-                placeholder="tu@email.com"
-                className="flex-1 md:w-64 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors"
-              />
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="btn-primary whitespace-nowrap"
-              >
-                Suscribir
-              </motion.button>
-            </div>
-          </div>
         </div>
 
         {/* Bottom bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-white/10">
           <p className="text-sm text-gray-500">
-            © 2026 Tecnasa U Learning Centers. Todos los derechos reservados.
+            Tecnasa U Learning Centers. Todos los derechos reservados.
           </p>
 
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-500">
-              Lunes 23 de marzo · 10:00 AM · Zoom
-            </span>
-
             {/* Back to top button */}
             <motion.button
               onClick={scrollToTop}

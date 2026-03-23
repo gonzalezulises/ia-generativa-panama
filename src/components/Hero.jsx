@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, Users, Lightbulb, Target } from 'lucide-react';
 import TecnasaLogo from './TecnasaLogo';
 
 // Neural network animation component
@@ -88,6 +88,12 @@ function NeuralNetwork() {
   );
 }
 
+const highlights = [
+  { icon: Lightbulb, text: 'Conceptos clave de IA Generativa' },
+  { icon: Target, text: 'Casos de uso reales en Panamá' },
+  { icon: Users, text: 'Estrategias para tu organización' },
+];
+
 export default function Hero() {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-bg-dark">
@@ -99,34 +105,35 @@ export default function Hero() {
       <div className="blob-1 top-0 right-0 translate-x-1/2 -translate-y-1/2" />
       <div className="blob-2 bottom-0 left-0 -translate-x-1/2 translate-y-1/2" />
 
-      {/* Content - Presentation style */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+      {/* Content */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
         {/* Tecnasa Logo */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
-          className="flex justify-center mb-12"
+          className="flex justify-center mb-10"
         >
           <TecnasaLogo size="large" />
         </motion.div>
 
-        {/* Presentation title */}
+        {/* Title */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8 }}
-          className="mb-8"
+          className="mb-6"
         >
-          <h1 className="text-5xl md:text-7xl font-display font-bold text-white mb-4 leading-tight">
-            IAG 101
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-4 leading-tight">
+            Introducción a la{' '}
+            <span className="gradient-text">IA Generativa</span>
           </h1>
-          <h2 className="text-2xl md:text-4xl font-display font-medium text-primary">
-            Fundamentos de IA Generativa
+          <h2 className="text-xl md:text-2xl font-display font-medium text-gray-300">
+            Lo que todo líder necesita saber para tomar decisiones informadas
           </h2>
         </motion.div>
 
-        {/* Divider line */}
+        {/* Divider */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -134,17 +141,22 @@ export default function Hero() {
           className="w-32 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-8"
         />
 
-        {/* Welcome message */}
-        <motion.p
+        {/* Highlights */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="text-xl md:text-2xl text-gray-300 mb-12"
+          className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-10"
         >
-          Bienvenidos
-        </motion.p>
+          {highlights.map((item, i) => (
+            <div key={i} className="flex items-center gap-2 text-gray-400">
+              <item.icon className="w-4 h-4 text-primary" />
+              <span className="text-sm">{item.text}</span>
+            </div>
+          ))}
+        </motion.div>
 
-        {/* Presenter info */}
+        {/* Presenter */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -1,5 +1,5 @@
-// Contenido para webinar estudiantil: Fundamentos de IA Generativa
-// Basado en investigación 2025-2026
+// Contenido para webinar gerencial: Introducción a la IA Generativa
+// Enfocado en decisores, líderes y gerentes
 
 export const stats = [
   {
@@ -7,7 +7,7 @@ export const stats = [
     value: 2.3,
     max: 5.0,
     label: "Madurez IA Panamá",
-    description: "Oportunidad: hay espacio para talento nuevo (n=230, nov 2025)",
+    description: "Nivel actual del ecosistema: ventana de oportunidad para early adopters (n=230, nov 2025)",
     color: "cyan"
   },
   {
@@ -23,7 +23,7 @@ export const stats = [
     id: 3,
     value: 78,
     label: "Adopción Empresarial",
-    description: "De organizaciones reportaron usar IA en 2024",
+    description: "De organizaciones globales ya usan IA en al menos una función de negocio",
     suffix: "%",
     color: "blue"
   },
@@ -31,7 +31,7 @@ export const stats = [
     id: 4,
     value: 65,
     label: "Sin Monetizar IA",
-    description: "Empresas sin ventas atribuibles a IA - oportunidad",
+    description: "Empresas que aún no generan ingresos atribuibles a IA — brecha competitiva",
     suffix: "%",
     color: "orange"
   },
@@ -39,15 +39,15 @@ export const stats = [
     id: 5,
     value: 46,
     label: "Sin Gobernanza",
-    description: "Empresas sin procesos claros de supervisión IA",
+    description: "Empresas sin procesos claros de supervisión IA — riesgo regulatorio",
     suffix: "%",
     color: "pink"
   },
   {
     id: 6,
     value: 4,
-    label: "Demos para Portafolio",
-    description: "Mini-proyectos listos que te llevas del webinar",
+    label: "Demos en Vivo",
+    description: "Casos prácticos interactivos que verás durante el webinar",
     color: "purple"
   }
 ];
@@ -56,101 +56,101 @@ export const demos = [
   {
     id: "istmostory",
     title: "IstmoStory Studio",
-    subtitle: "Texto Creativo + Control",
-    description: "Genera historias del Istmo con control de tono, longitud y creatividad. Exporta en múltiples formatos.",
+    subtitle: "Generación de Contenido",
+    description: "Genera contenido de calidad con control de tono, estilo y creatividad. Ideal para marketing, comunicaciones y estrategia de marca.",
     icon: "pen-tool",
     color: "#00B4D8",
     wow: "Alto",
-    features: ["Control de temperatura", "Múltiples estilos", "Export Markdown"]
+    features: ["Control de parámetros", "Múltiples estilos", "Aplicación inmediata"]
   },
   {
     id: "codementor",
     title: "Code Mentor",
-    subtitle: "Tutor + Tests + Explicación",
-    description: "IA que genera soluciones, tests unitarios y explica errores. Aprende a programar sin copiar ciegamente.",
+    subtitle: "Automatización Inteligente",
+    description: "IA que analiza, mejora y valida procesos. Ejemplo práctico de cómo la IA puede optimizar operaciones técnicas en tu organización.",
     icon: "code",
     color: "#10B981",
     wow: "Muy Alto",
-    features: ["Genera tests", "Explica bugs", "Verifica código"]
+    features: ["Análisis automatizado", "Genera verificaciones", "Reduce errores"]
   },
   {
     id: "vision",
     title: "Vision+Text Explainer",
-    subtitle: "Multimodal en Tiempo Real",
-    description: "Sube una imagen y la IA la analiza, describe y genera contenido. Ideal para marketing y análisis.",
+    subtitle: "IA Multimodal",
+    description: "Analiza imágenes y genera descripciones, contenido para redes y reportes. El futuro del análisis visual automatizado.",
     icon: "eye",
     color: "#F43F5E",
     wow: "Muy Alto",
-    features: ["Análisis de imagen", "Genera copy", "Quiz visual"]
+    features: ["Análisis de imagen", "Genera contenido", "Múltiples outputs"]
   },
   {
     id: "localdocs",
     title: "LocalDocs RAG + Agente",
-    subtitle: "La Demo Más Potente",
-    description: "Pregunta a documentos panameños (Ley 81, datos abiertos) con citas. Convierte respuestas en acciones.",
+    subtitle: "Consulta de Documentos",
+    description: "Pregunta a tus documentos internos y recibe respuestas con citas verificables. La aplicación más impactante para empresas.",
     icon: "file-search",
     color: "#8B5CF6",
     wow: "Máximo",
-    features: ["RAG con citas", "Tool calling", "Export PDF"]
+    features: ["RAG con citas", "Fuentes verificables", "Acciones automáticas"]
   }
 ];
 
 export const modules = [
   {
     id: 1,
-    title: "Contexto y Mental Models",
-    duration: "8-10 min",
-    learning: "Diferenciar IA generativa vs predictiva",
-    project: "Mapa de casos de uso en tu campus"
+    title: "El Panorama de la IA Generativa",
+    duration: "10 min",
+    learning: "Diferenciar IA generativa vs predictiva y entender el impacto en negocios",
+    project: "Mapa de oportunidades para tu industria"
   },
   {
     id: 2,
-    title: "Prompting y Control",
-    duration: "10-12 min",
-    learning: "Controlar estilo, estructura y calidad",
-    project: "Generador de historias con evaluación"
+    title: "Cómo Funcionan los LLMs",
+    duration: "12 min",
+    learning: "Comprender tokens, atención y generación sin jerga técnica",
+    project: "Visualización interactiva de fundamentos"
   },
   {
     id: 3,
-    title: "Transformers sin Matemáticas",
-    duration: "10-12 min",
-    learning: "Explicar atención y el rol de tokens",
-    project: "Mini-visualizador de atención"
+    title: "Prompting Efectivo",
+    duration: "10 min",
+    learning: "Técnicas para obtener resultados consistentes y de calidad",
+    project: "Generador de contenido con control de parámetros"
   },
   {
     id: 4,
-    title: "Code Assistant como Tutor",
-    duration: "10-12 min",
-    learning: "Usar IA para programar con verificación",
-    project: "Bot que genera solución + tests"
+    title: "Demos en Vivo",
+    duration: "20 min",
+    learning: "4 aplicaciones prácticas de IA generativa funcionando",
+    project: "Generación de texto, análisis de código, visión, RAG"
   },
   {
     id: 5,
-    title: "Multimodal (Imagen+Texto)",
-    duration: "10-12 min",
-    learning: "Usar visión+texto para análisis",
-    project: "Detector de detalles turísticos"
+    title: "Casos Reales en Panamá",
+    duration: "10 min",
+    learning: "Empresas panameñas usando IA con resultados medibles",
+    project: "Análisis de ROI y lecciones aprendidas"
   },
   {
     id: 6,
-    title: "RAG con Documentos Locales",
-    duration: "12-15 min",
-    learning: "Pipeline: chunking → embeddings → respuesta",
-    project: "Q&A sobre Ley 81 / Datos Abiertos"
+    title: "Riesgos y Gobernanza",
+    duration: "8 min",
+    learning: "Marco de riesgos y controles para implementar IA responsablemente",
+    project: "Checklist de gobernanza para tu organización"
   },
   {
     id: 7,
-    title: "Agente Simple con Herramientas",
-    duration: "12-15 min",
-    learning: "Tool/function calling para acciones",
-    project: "Agente planificador de estudio"
+    title: "Hoja de Ruta para Empezar",
+    duration: "10 min",
+    learning: "Plan de acción de 30-60-90 días para adoptar IA",
+    project: "Framework de implementación priorizado"
   },
   {
     id: 8,
-    title: "IA Responsable y Privacidad",
-    duration: "8-10 min",
-    learning: "Riesgos y controles para publicar demos",
-    project: "Checklist de compliance + guardrails"
+    title: "Q&A y Próximos Pasos",
+    duration: "10 min",
+    learning: "Resolver dudas específicas de tu contexto",
+    project: "Recursos y formaciones disponibles"
   }
 ];
 
@@ -159,7 +159,7 @@ export const timeline = [
     year: 2014,
     title: "GANs",
     subtitle: "Redes Generativas Adversarias",
-    description: "Marco adversarial para generar muestras realistas.",
+    description: "Marco adversarial para generar contenido realista: imágenes, video, audio sintético.",
     icon: "brain",
     color: "cyan"
   },
@@ -175,7 +175,7 @@ export const timeline = [
     year: 2020,
     title: "GPT-3",
     subtitle: "175B Parámetros",
-    description: "Escala masiva + few-shot learning sin fine-tuning.",
+    description: "Escala masiva + few-shot learning. Primer modelo capaz de seguir instrucciones complejas.",
     icon: "sparkles",
     color: "pink"
   },
@@ -183,15 +183,15 @@ export const timeline = [
     year: 2022,
     title: "ChatGPT",
     subtitle: "IA Conversacional Masiva",
-    description: "Interfaz que normalizó el uso de LLMs en flujos cotidianos.",
+    description: "100M de usuarios en 2 meses. Normalizó el uso de LLMs en empresas y vida cotidiana.",
     icon: "message-circle",
     color: "green"
   },
   {
     year: 2024,
     title: "Era Multimodal",
-    subtitle: "Texto + Imagen + Audio",
-    description: "Modelos que procesan múltiples modalidades: GPT-4V, Gemini, Claude 3.",
+    subtitle: "Texto + Imagen + Audio + Video",
+    description: "GPT-4o, Gemini, Claude 3: modelos que procesan y generan múltiples modalidades.",
     icon: "layers",
     color: "blue"
   },
@@ -199,7 +199,7 @@ export const timeline = [
     year: 2026,
     title: "IA Agéntica",
     subtitle: "Sistemas que Ejecutan",
-    description: "De chat a agentes que perciben, planifican y ejecutan con herramientas.",
+    description: "De chatbots a agentes autónomos que planifican, deciden y actúan con herramientas.",
     icon: "bot",
     color: "orange"
   }
@@ -214,7 +214,7 @@ export const sectors = [
     cases: [
       "Canal de Panamá: CITEC con IA para gestión hídrica",
       "Zona Libre de Colón: Automatización documental",
-      "Aduanas: Perfilamiento de riesgo"
+      "Aduanas: Perfilamiento de riesgo con ML"
     ],
     stats: { projects: 12, companies: 45 },
     color: "#00B4D8"
@@ -226,7 +226,7 @@ export const sectors = [
     maturity: 3.8,
     cases: [
       "Banistmo: Chatbot 'Tabot' en producción",
-      "BAC Credomatic: Asistentes virtuales",
+      "BAC Credomatic: Asistentes virtuales multicanal",
       "Banco General: Biometría anti-spoofing"
     ],
     stats: { projects: 28, companies: 15 },
@@ -240,8 +240,8 @@ export const sectors = [
     maturity: 2.8,
     cases: [
       "CSS: Tomógrafos con IA (~85 estudios/día)",
-      "MINSA: Programa de Telemedicina",
-      "Transformación Digital en Salud"
+      "MINSA: Programa de Telemedicina con IA",
+      "Transformación Digital en Salud Pública"
     ],
     stats: { projects: 8, companies: 12 },
     color: "#F43F5E"
@@ -252,12 +252,12 @@ export const sectors = [
     icon: "building-2",
     maturity: 2.4,
     cases: [
-      "ISJUP-IA: Asistente judicial con fuentes",
-      "Asamblea: Redacción normativa con IA",
-      "Ventanillas virtuales con chatbots"
+      "ISJUP-IA: Asistente judicial con fuentes verificables",
+      "Asamblea: Redacción normativa asistida por IA",
+      "Ventanillas virtuales con chatbots 24/7"
     ],
     stats: { projects: 6, companies: 8 },
-    highlight: "ISJUP-IA: RAG con trazabilidad",
+    highlight: "ISJUP-IA: RAG con trazabilidad completa",
     color: "#8B5CF6"
   },
   {
@@ -268,7 +268,7 @@ export const sectors = [
     cases: [
       "Jetour/Petroautos: 9.8% conversión (vs 1%)",
       "Hoteles Decameron: Asistente 'Cameron'",
-      "Tocumen: IA para objetos extraviados"
+      "Tocumen: IA para gestión de objetos extraviados"
     ],
     stats: { projects: 15, companies: 32 },
     highlight: "Caso Jetour: 9.8x mejora en conversión",
@@ -294,54 +294,54 @@ export const llmConcepts = [
     id: "tokenization",
     title: "Tokenización",
     analogy: "Piezas de LEGO",
-    description: "El modelo procesa tokens (fragmentos), no palabras completas.",
+    description: "El modelo procesa tokens (fragmentos), no palabras completas. Entender esto es clave para controlar costos.",
     example: "\"Hola mundo\" → [\"Hola\", \" mundo\"]"
   },
   {
     id: "attention",
     title: "Atención",
-    analogy: "Linterna",
-    description: "Decide qué partes del contexto importan para cada palabra.",
+    analogy: "Foco de linterna",
+    description: "Decide qué partes del contexto importan para cada palabra. Es lo que hace potentes a los Transformers.",
     example: "'El gato duerme' → relaciona 'duerme' con 'gato'"
   },
   {
     id: "generation",
     title: "Generación",
-    analogy: "Autocomplete Pro",
-    description: "Avanza token por token calculando probabilidades.",
+    analogy: "Autocomplete avanzado",
+    description: "Avanza token por token calculando probabilidades. No \"piensa\", predice el siguiente token más probable.",
     example: "\"El cielo es\" → [azul: 70%, rojo: 10%, ...]"
   },
   {
     id: "rag",
     title: "RAG",
-    analogy: "Consultar antes de Responder",
-    description: "Recupera fragmentos relevantes y genera con citas.",
-    example: "Pregunta → Busca docs → Responde citando"
+    analogy: "Consultar antes de responder",
+    description: "Recupera información relevante de tus documentos y genera respuestas con citas. Ideal para datos internos.",
+    example: "Pregunta → Busca docs → Responde citando fuentes"
   },
   {
     id: "tools",
     title: "Tool Calling",
-    analogy: "IA con Manos",
-    description: "El modelo llama funciones externas para ejecutar acciones.",
+    analogy: "IA con manos",
+    description: "El modelo llama funciones y APIs externas para ejecutar acciones reales: agendar, enviar emails, consultar bases de datos.",
     example: "\"Agenda reunión\" → llama create_event()"
   },
   {
     id: "agents",
     title: "Agentes",
-    analogy: "IA Autónoma",
-    description: "Sistemas que perciben, planifican y ejecutan tareas.",
-    example: "\"Planifica mi estudio\" → crea plan + tareas + checklist"
+    analogy: "Asistente autónomo",
+    description: "Sistemas que perciben, planifican y ejecutan tareas complejas de forma autónoma. La frontera actual de la IA.",
+    example: "\"Analiza ventas Q4\" → busca datos → genera reporte → envía"
   }
 ];
 
 export const starterPack = {
-  title: "Generative AI Student Starter Pack",
+  title: "Kit de Inicio para Líderes",
   items: [
-    "5 Notebooks en Google Colab (sin GPU)",
-    "Datasets del Portal de Datos Abiertos de Panamá",
-    "Checklist de privacidad y compliance",
-    "Ruta de estudio de 14 días",
-    "Acceso al mini-hackathon post-webinar"
+    "Framework de evaluación de casos de uso IA",
+    "Checklist de gobernanza y compliance",
+    "Guía de proveedores de IA en la región",
+    "Hoja de ruta 30-60-90 días",
+    "Acceso a la comunidad Tecnasa U"
   ]
 };
 
@@ -349,19 +349,19 @@ export const localCases = [
   {
     name: "Jetour/Petroautos",
     metric: "1% → 9.8%",
-    description: "Conversión con chatbot IA",
+    description: "Conversión con chatbot IA en WhatsApp",
     icon: "trending-up"
   },
   {
     name: "ISJUP-IA",
     metric: "RAG Legal",
-    description: "Asistente judicial con fuentes seguras",
+    description: "Asistente judicial con fuentes verificables",
     icon: "scale"
   },
   {
     name: "Spark AI Summit",
     metric: "2025",
-    description: "Ecosistema y comunidad local",
+    description: "Ecosistema y comunidad IA en Panamá",
     icon: "users"
   }
 ];

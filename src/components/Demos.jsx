@@ -555,13 +555,13 @@ export default function Demos() {
           className="text-center mb-12"
         >
           <span className="inline-block px-4 py-1 rounded-full bg-primary/10 text-sm text-primary font-medium mb-4">
-            Demos Interactivas
+            Lo que Aprenderás
           </span>
           <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
             4 <span className="gradient-text">Demos</span> en Vivo
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Experimenta las capacidades de la IA Generativa
+            Aplicaciones reales de IA Generativa que puedes llevar a tu organización
           </p>
         </motion.div>
 

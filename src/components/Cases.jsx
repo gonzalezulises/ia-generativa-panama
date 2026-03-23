@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Car, Scale, Stethoscope, TrendingUp, ArrowRight, ExternalLink, Quote } from 'lucide-react';
+import { Car, Scale, Stethoscope, TrendingUp, ArrowRight, Quote } from 'lucide-react';
 
 const cases = [
   {
@@ -244,7 +244,7 @@ export default function Cases() {
             IA en <span className="gradient-text">Acción</span>
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Casos de uso verificables de IA generativa en empresas panameñas
+            Casos verificables de IA generativa en empresas panameñas con resultados medibles
           </p>
         </motion.div>
 
@@ -263,7 +263,7 @@ export default function Cases() {
           ))}
         </motion.div>
 
-        {/* CTA */}
+        {/* Takeaway */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -272,19 +272,11 @@ export default function Cases() {
         >
           <div className="glass-strong rounded-2xl p-8 max-w-3xl mx-auto">
             <h3 className="text-2xl font-display font-bold text-white mb-4">
-              ¿Quieres implementar IA en tu organización?
+              Lecciones clave de estos casos
             </h3>
-            <p className="text-gray-400 mb-6">
-              Aprende de estos casos y descubre cómo empezar en 30 días con una estrategia clara
+            <p className="text-gray-400">
+              Empezar pequeño con un caso de uso específico, medir resultados desde el día uno, y escalar solo lo que funciona. La IA no reemplaza equipos — los potencia.
             </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-neon-cyan to-neon-purple text-black font-bold glow-cyan"
-            >
-              Reservar Consultoría
-              <ExternalLink className="w-5 h-5" />
-            </motion.button>
           </div>
         </motion.div>
       </div>
