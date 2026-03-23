@@ -3,51 +3,51 @@ import { Clock, Brain, Sparkles, Play, Map, BarChart3, Briefcase, BookOpen, Chec
 
 const agendaItems = [
   {
-    time: '0-5 min',
+    time: '0-3 min',
     title: '¿Por qué estamos aquí?',
-    description: 'El contexto: 78% shadow AI, 95% pilotos fracasan, la brecha de talento es real',
+    description: 'Contexto: shadow AI, brecha de talento, por qué capacitarse ahora',
     icon: BarChart3,
     color: '#00B4D8'
   },
   {
-    time: '5-15 min',
+    time: '3-8 min',
     title: '¿Qué es IA Generativa?',
-    description: 'Generativa vs predictiva, qué puede y qué no puede hacer, limitaciones reales',
+    description: 'Generativa vs predictiva, qué puede y qué no, mitos vs realidad',
     icon: Brain,
     color: '#8B5CF6'
   },
   {
-    time: '15-22 min',
-    title: 'Cómo funciona un LLM',
-    description: 'Tokens, atención, generación, RAG, agentes — explicado de forma interactiva',
+    time: '8-13 min',
+    title: '¿Cómo funciona un LLM?',
+    description: 'Tokens, atención, generación, RAG, agentes — de forma interactiva',
     icon: Sparkles,
     color: '#10B981'
   },
   {
-    time: '22-32 min',
+    time: '13-25 min',
     title: 'Demos en vivo con IA real',
-    description: 'Generación de contenido, análisis de código, visión multimodal, Q&A con documentos',
+    description: 'Contenido, código, visión y RAG — generación real con GPT-4o-mini',
     icon: Play,
     color: '#F43F5E'
   },
   {
-    time: '32-38 min',
-    title: 'Casos de uso por sector',
-    description: 'Aplicaciones concretas en logística, banca, salud, gobierno, retail y educación',
+    time: '25-32 min',
+    title: 'Aplicaciones por sector',
+    description: 'Casos de uso y casos reales con ROI en 6 industrias',
     icon: Map,
     color: '#F59E0B'
   },
   {
-    time: '38-42 min',
-    title: 'Casos reales con ROI',
-    description: 'Jetour (9.8x conversión), ISJUP-IA (RAG legal), CSS Radiología, Banca Digital',
+    time: '32-38 min',
+    title: 'Ideas clave y takeaways',
+    description: 'Las 6 ideas más importantes para llevar de esta sesión',
     icon: Briefcase,
     color: '#06B6D4'
   },
   {
-    time: '42-45 min',
-    title: 'Próximos pasos y recursos',
-    description: 'Cómo seguir aprendiendo, el track IAG-101/102/103, y recursos recomendados',
+    time: '38-45 min',
+    title: 'Próximos pasos',
+    description: 'Track IAG-101/102/103, recursos recomendados, Q&A',
     icon: BookOpen,
     color: '#10B981'
   },
