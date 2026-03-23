@@ -30,8 +30,8 @@ function App() {
         <Navbar />
         <main>
           <Hero />
-          <Demos />
           <LLMDemo />
+          <Demos />
           <Timeline />
           <PanamaMap />
           <Stats />

@@ -5,8 +5,8 @@ import { TecnasaLogoCompact } from './TecnasaLogo';
 
 const navItems = [
   { label: 'Inicio', href: '#hero' },
-  { label: 'Demos', href: '#demos' },
   { label: 'Fundamentos', href: '#fundamentals' },
+  { label: 'Demos', href: '#demos' },
   { label: 'Timeline', href: '#timeline' },
   { label: 'Panamá', href: '#panama-map' },
   { label: 'Casos', href: '#cases' },

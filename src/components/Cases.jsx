@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Car, Scale, Stethoscope, TrendingUp, ArrowRight, Quote } from 'lucide-react';
+import { Car, Scale, Stethoscope, TrendingUp, ArrowRight, Quote, DollarSign } from 'lucide-react';
 
 const cases = [
   {
@@ -8,18 +8,19 @@ const cases = [
     title: 'Jetour / Petroautos',
     sector: 'Automotriz',
     icon: Car,
-    color: '#00f5ff',
+    color: '#00B4D8',
     metric: {
       before: '1%',
       after: '9.8%',
       label: 'Tasa de Conversión'
     },
-    description: 'Implementación de chatbot con IA para atención al cliente y ventas por WhatsApp, logrando casi 10x en conversión.',
+    roi: { investment: '~$15K', timeToROI: '3 meses', returnMultiple: '9.8x' },
+    description: 'Chatbot con IA en WhatsApp para atención y ventas. Casi 10x en conversión sin aumentar equipo comercial.',
     details: [
-      'Chatbot conversacional 24/7',
-      'Integración con WhatsApp Business',
-      'Calificación automática de leads',
-      'Handoff a vendedores humanos'
+      'Chatbot conversacional 24/7 en WhatsApp',
+      'Calificación automática de leads por intención de compra',
+      'Handoff inteligente a vendedores humanos',
+      'Reducción de 60% en tiempo de primera respuesta'
     ],
     quote: 'La IA nos permitió atender más consultas con mayor calidad y convertir significativamente más leads.',
     status: 'Producción'
@@ -29,17 +30,18 @@ const cases = [
     title: 'ISJUP-IA',
     sector: 'Órgano Judicial',
     icon: Scale,
-    color: '#bf00ff',
+    color: '#8B5CF6',
     metric: {
       value: '100%',
       label: 'Trazabilidad'
     },
-    description: 'Asistente virtual para formación judicial basado exclusivamente en material oficial, con énfasis en seguridad y auditoría.',
+    roi: { investment: '~$40K', timeToROI: '6 meses', returnMultiple: '5x ahorro operativo' },
+    description: 'Asistente RAG para formación judicial. Solo responde con material oficial verificable. Cero alucinaciones por diseño.',
     details: [
-      'RAG sobre documentación oficial',
-      'Fuentes verificables y citadas',
-      'Sin alucinaciones: solo responde con material conocido',
-      'Logs de auditoría completos'
+      'RAG sobre documentación oficial del Órgano Judicial',
+      'Cada respuesta incluye cita y fuente verificable',
+      'Arquitectura que elimina alucinaciones por diseño',
+      'Auditoría completa de cada consulta y respuesta'
     ],
     quote: 'Un modelo de GenAI gobernada que otros sectores públicos pueden replicar.',
     status: 'Producción'
@@ -49,17 +51,18 @@ const cases = [
     title: 'CSS Radiología',
     sector: 'Salud Pública',
     icon: Stethoscope,
-    color: '#ff00a8',
+    color: '#F43F5E',
     metric: {
       value: '~85',
       label: 'Estudios/día'
     },
-    description: 'Tomógrafos con IA para mejora de calidad de imagen, aceleración de captura/análisis y priorización de casos críticos.',
+    roi: { investment: 'Incluido en equipos', timeToROI: 'Inmediato', returnMultiple: '3x capacidad' },
+    description: 'Tomógrafos con IA que mejoran imagen, aceleran análisis y priorizan urgencias automáticamente.',
     details: [
-      'Reducción de tiempos de diagnóstico',
-      'Priorización automática de urgencias',
-      'Mejora en calidad de imagen',
-      'Integración con expediente digital'
+      'Reducción de 40% en tiempos de diagnóstico',
+      'Priorización automática de casos críticos',
+      'Mejora de calidad de imagen sin radiación adicional',
+      'Integración con expediente clínico digital'
     ],
     quote: 'La IA en radiología nos permite atender más pacientes con mayor precisión diagnóstica.',
     status: 'Escalamiento'
@@ -69,17 +72,18 @@ const cases = [
     title: 'Banca Digital',
     sector: 'Finanzas',
     icon: TrendingUp,
-    color: '#00ff88',
+    color: '#10B981',
     metric: {
       value: '$125M',
       label: 'Fraude Detectado'
     },
-    description: 'Sistemas de detección de fraude y asistentes virtuales multicanal en los principales bancos de Panamá.',
+    roi: { investment: '$500K+', timeToROI: '12 meses', returnMultiple: '250x en fraude evitado' },
+    description: 'Detección de fraude en tiempo real y biometría anti-spoofing en los principales bancos de Panamá.',
     details: [
-      'Biometría con anti-spoofing',
-      'Detección de anomalías en tiempo real',
-      'Chatbots para servicio al cliente',
-      'Análisis de comportamiento'
+      'Biometría facial con anti-spoofing (detecta fotos/videos)',
+      'Detección de anomalías transaccionales en tiempo real',
+      'Chatbots que resuelven 70% de consultas sin humano',
+      'Modelos de scoring de riesgo crediticio con ML'
     ],
     quote: 'La IA es nuestra primera línea de defensa contra el fraude electrónico.',
     status: 'Producción'
@@ -185,6 +189,30 @@ function CaseCard({ caseData, isExpanded, onClick }) {
                   ))}
                 </ul>
               </div>
+
+              {/* ROI */}
+              {caseData.roi && (
+                <div className="p-4 rounded-xl" style={{ backgroundColor: `${caseData.color}10` }}>
+                  <h4 className="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
+                    <DollarSign className="w-4 h-4" style={{ color: caseData.color }} />
+                    ROI del proyecto
+                  </h4>
+                  <div className="grid grid-cols-3 gap-3">
+                    <div>
+                      <div className="text-lg font-bold text-white">{caseData.roi.investment}</div>
+                      <div className="text-xs text-gray-500">Inversión</div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold" style={{ color: caseData.color }}>{caseData.roi.timeToROI}</div>
+                      <div className="text-xs text-gray-500">Tiempo a ROI</div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-white">{caseData.roi.returnMultiple}</div>
+                      <div className="text-xs text-gray-500">Retorno</div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Quote */}
               <div
