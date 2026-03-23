@@ -283,10 +283,10 @@ function VisionDemo() {
   const [error, setError] = useState(null);
 
   const images = [
-    { name: 'Canal de Panamá', img: 'https://images.unsplash.com/photo-1558383817-bf8e0f78085d?w=600&q=80', scene: 'Las esclusas de Miraflores del Canal de Panamá con un buque portacontenedores cruzando. Agua turquesa, compuertas metálicas masivas, vegetación tropical alrededor.' },
-    { name: 'Selva Tropical', img: 'https://images.unsplash.com/photo-1574786527860-f6e06e1a0576?w=600&q=80', scene: 'Selva tropical del Darién en Panamá. Vegetación exuberante, árboles gigantes, niebla matutina, un río cristalino. Aves coloridas (tucanes, quetzales).' },
-    { name: 'Casco Viejo', img: 'https://images.unsplash.com/photo-1565608438257-fac3c27beb36?w=600&q=80', scene: 'Casco Viejo de Panamá. Edificios coloniales restaurados con balcones de hierro forjado, calles empedradas, iglesia al fondo, atardecer dorado.' },
-    { name: 'Skyline Ciudad', img: 'https://images.unsplash.com/photo-1566396588783-0c4737e41e69?w=600&q=80', scene: 'Skyline de Ciudad de Panamá desde la Cinta Costera. Rascacielos modernos (F&F Tower, JW Marriott), bahía de Panamá, atardecer naranja y púrpura.' }
+    { name: 'Canal de Panamá', img: 'https://images.pexels.com/photos/2906490/pexels-photo-2906490.jpeg?auto=compress&cs=tinysrgb&w=600', scene: 'Las esclusas de Miraflores del Canal de Panamá con buques de carga cruzando. Compuertas metálicas masivas, agua, infraestructura portuaria, vegetación tropical alrededor.' },
+    { name: 'Selva Tropical', img: 'https://images.pexels.com/photos/28769443/pexels-photo-28769443.jpeg?auto=compress&cs=tinysrgb&w=600', scene: 'Selva tropical exuberante con vegetación densa, helechos gigantes, hojas verdes brillantes, niebla entre los árboles. Biodiversidad tropical centroamericana.' },
+    { name: 'Casco Viejo', img: 'https://images.pexels.com/photos/22194974/pexels-photo-22194974.jpeg?auto=compress&cs=tinysrgb&w=600', scene: 'Casco Viejo de Panamá. Edificio colonial con fachada deteriorada, balcones de hierro forjado, acera empedrada, arquitectura histórica del siglo XVII.' },
+    { name: 'Skyline Ciudad', img: 'https://images.pexels.com/photos/18185251/pexels-photo-18185251.jpeg?auto=compress&cs=tinysrgb&w=600', scene: 'Skyline de Ciudad de Panamá con rascacielos modernos, bahía de Panamá, edificios de vidrio y acero, cielo despejado, vista panorámica costera.' }
   ];
 
   const analyzeImage = async () => {
