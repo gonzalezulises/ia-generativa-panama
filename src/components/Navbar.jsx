@@ -21,20 +21,27 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     const handleFsChange = () => setIsFullscreen(!!document.fullscreenElement);
+    const handleKeyDown = (e) => {
+      if (e.key === 'f' || e.key === 'F') {
+        // Don't trigger when typing in inputs/textareas
+        const tag = document.activeElement?.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+        e.preventDefault();
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        } else {
+          document.documentElement.requestFullscreen();
+        }
+      }
+    };
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('fullscreenchange', handleFsChange);
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('fullscreenchange', handleFsChange);
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
-
-  const toggleFullscreen = useCallback(() => {
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    } else {
-      document.documentElement.requestFullscreen();
-    }
   }, []);
 
   return (
@@ -64,13 +71,10 @@ export default function Navbar() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
               </a>
             ))}
-            <button
-              onClick={toggleFullscreen}
-              className="p-2 rounded-lg text-gray-400 hover:text-primary hover:bg-white/5 transition-all"
-              title={isFullscreen ? 'Salir de pantalla completa' : 'Pantalla completa'}
-            >
-              {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
-            </button>
+            <span className="flex items-center gap-1.5 text-xs text-gray-500" title="Presiona F para pantalla completa">
+              {isFullscreen ? <Minimize className="w-3.5 h-3.5" /> : <Maximize className="w-3.5 h-3.5" />}
+              <kbd className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-gray-400 font-mono">F</kbd>
+            </span>
           </div>
 
           {/* Mobile Menu Button */}
