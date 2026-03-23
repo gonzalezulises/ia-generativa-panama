@@ -12,23 +12,24 @@ const iconMap = {
   'graduation-cap': GraduationCap
 };
 
-// Network Graph Visualization
+// Network Graph Visualization — all interaction handled on canvas
 const NetworkGraph = ({ activeSector, onSectorHover }) => {
   const canvasRef = useRef(null);
-  const [nodes, setNodes] = useState([]);
+  const hoveredRef = useRef(null);
+  const activeSectorRef = useRef(activeSector);
 
-  // Node positions for sectors (Sagittarius constellation - "The Teapot")
-  // Based on actual star positions of Sagittarius
-  const sectorNodes = [
-    { id: 'logistics', x: 150, y: 200, label: 'Logística', color: '#00B4D8' },      // Kaus Australis (ε) - spout bottom
-    { id: 'finance', x: 250, y: 120, label: 'Finanzas', color: '#10B981' },         // Kaus Media (δ) - spout top
-    { id: 'health', x: 380, y: 100, label: 'Salud', color: '#F43F5E' },             // Kaus Borealis (λ) - lid
-    { id: 'government', x: 500, y: 140, label: 'Gobierno', color: '#8B5CF6' },      // Nunki (σ) - handle top
-    { id: 'retail', x: 550, y: 260, label: 'Retail', color: '#F59E0B' },            // Tau Sgr - handle bottom
-    { id: 'education', x: 350, y: 280, label: 'Educación', color: '#06B6D4' },      // Ascella (ζ) - base
+  // Keep ref in sync with prop
+  useEffect(() => { activeSectorRef.current = activeSector; }, [activeSector]);
+
+  // Sector node positions as ratios (0-1) so they scale to any canvas size
+  const sectorNodesDef = [
+    { id: 'logistics', rx: 0.19, ry: 0.48, label: 'Logística', color: '#00B4D8' },
+    { id: 'finance', rx: 0.31, ry: 0.29, label: 'Finanzas', color: '#10B981' },
+    { id: 'health', rx: 0.48, ry: 0.24, label: 'Salud', color: '#F43F5E' },
+    { id: 'government', rx: 0.63, ry: 0.33, label: 'Gobierno', color: '#8B5CF6' },
+    { id: 'retail', rx: 0.69, ry: 0.62, label: 'Retail', color: '#F59E0B' },
+    { id: 'education', rx: 0.44, ry: 0.67, label: 'Educación', color: '#06B6D4' },
   ];
-
-  // No connection lines - just constellation points
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -37,16 +38,20 @@ const NetworkGraph = ({ activeSector, onSectorHover }) => {
     const ctx = canvas.getContext('2d');
     const particles = [];
     const particleCount = 80;
+    let w, h;
+
+    const getNodes = () => sectorNodesDef.map(n => ({ ...n, x: n.rx * w, y: n.ry * h }));
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth * 2;
-      canvas.height = canvas.offsetHeight * 2;
-      ctx.scale(2, 2);
+      w = canvas.offsetWidth;
+      h = canvas.offsetHeight;
+      canvas.width = w * 2;
+      canvas.height = h * 2;
+      ctx.setTransform(2, 0, 0, 2, 0, 0);
     };
     resize();
     window.addEventListener('resize', resize);
 
-    // Create floating particles
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * canvas.offsetWidth,
@@ -58,27 +63,71 @@ const NetworkGraph = ({ activeSector, onSectorHover }) => {
       });
     }
 
+    // Mouse handling
+    const getMousePos = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    };
+
+    const hitTest = (mx, my, nodes) => {
+      for (const node of nodes) {
+        const dx = mx - node.x;
+        const dy = my - node.y;
+        if (Math.sqrt(dx * dx + dy * dy) < 40) return node.id;
+      }
+      return null;
+    };
+
+    const handleMouseMove = (e) => {
+      const { x, y } = getMousePos(e);
+      const nodes = getNodes();
+      const hit = hitTest(x, y, nodes);
+      hoveredRef.current = hit;
+      canvas.style.cursor = hit ? 'pointer' : 'default';
+      if (hit && hit !== activeSectorRef.current) {
+        onSectorHover(hit);
+      }
+    };
+
+    const handleClick = (e) => {
+      const { x, y } = getMousePos(e);
+      const nodes = getNodes();
+      const hit = hitTest(x, y, nodes);
+      if (hit) {
+        onSectorHover(hit === activeSectorRef.current ? null : hit);
+      }
+    };
+
+    const handleMouseLeave = () => {
+      hoveredRef.current = null;
+      canvas.style.cursor = 'default';
+    };
+
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('click', handleClick);
+    canvas.addEventListener('mouseleave', handleMouseLeave);
+
     let animationId;
     let time = 0;
 
     const animate = () => {
       time += 0.01;
-      ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+      ctx.clearRect(0, 0, w, h);
+      const sectorNodes = getNodes();
+      const active = activeSectorRef.current;
+      const hovered = hoveredRef.current;
 
-      // Draw floating particles
-      particles.forEach((particle, i) => {
+      // Floating particles
+      particles.forEach((particle) => {
         particle.x += particle.vx;
         particle.y += particle.vy;
+        if (particle.x < 0 || particle.x > w) particle.vx *= -1;
+        if (particle.y < 0 || particle.y > h) particle.vy *= -1;
 
-        if (particle.x < 0 || particle.x > canvas.offsetWidth) particle.vx *= -1;
-        if (particle.y < 0 || particle.y > canvas.offsetHeight) particle.vy *= -1;
-
-        // Connect particles to nearby sector nodes
         sectorNodes.forEach(node => {
           const dx = node.x - particle.x;
           const dy = node.y - particle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-
           if (distance < 100) {
             const opacity = (1 - distance / 100) * 0.2;
             ctx.beginPath();
@@ -90,20 +139,20 @@ const NetworkGraph = ({ activeSector, onSectorHover }) => {
           }
         });
 
-        // Draw particle
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(0, 180, 216, ${particle.opacity})`;
         ctx.fill();
       });
 
-      // Draw sector nodes
+      // Sector nodes
       sectorNodes.forEach((node, index) => {
-        const isActive = activeSector === node.id;
-        const sector = sectors[index];
+        const isActive = active === node.id;
+        const isHovered = hovered === node.id;
+        const highlight = isActive || isHovered;
 
         // Outer glow
-        if (isActive) {
+        if (highlight) {
           const glowGradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, 60);
           glowGradient.addColorStop(0, `${node.color}40`);
           glowGradient.addColorStop(1, 'transparent');
@@ -117,16 +166,16 @@ const NetworkGraph = ({ activeSector, onSectorHover }) => {
         const pulseRadius = 30 + Math.sin(time * 3 + index) * 5;
         ctx.beginPath();
         ctx.arc(node.x, node.y, pulseRadius, 0, Math.PI * 2);
-        ctx.strokeStyle = isActive ? `${node.color}80` : `${node.color}30`;
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = highlight ? `${node.color}80` : `${node.color}30`;
+        ctx.lineWidth = highlight ? 2.5 : 2;
         ctx.stroke();
 
         // Inner circle
         ctx.beginPath();
         ctx.arc(node.x, node.y, 20, 0, Math.PI * 2);
         const innerGradient = ctx.createRadialGradient(node.x - 5, node.y - 5, 0, node.x, node.y, 20);
-        innerGradient.addColorStop(0, isActive ? node.color : `${node.color}80`);
-        innerGradient.addColorStop(1, isActive ? `${node.color}CC` : `${node.color}40`);
+        innerGradient.addColorStop(0, highlight ? node.color : `${node.color}80`);
+        innerGradient.addColorStop(1, highlight ? `${node.color}CC` : `${node.color}40`);
         ctx.fillStyle = innerGradient;
         ctx.fill();
 
@@ -135,6 +184,12 @@ const NetworkGraph = ({ activeSector, onSectorHover }) => {
         ctx.arc(node.x, node.y, 4, 0, Math.PI * 2);
         ctx.fillStyle = '#FFFFFF';
         ctx.fill();
+
+        // Label
+        ctx.font = highlight ? 'bold 14px Inter, system-ui, sans-serif' : '14px Inter, system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = highlight ? node.color : '#9CA3AF';
+        ctx.fillText(node.label, node.x, node.y + 50);
       });
 
       animationId = requestAnimationFrame(animate);
@@ -144,46 +199,19 @@ const NetworkGraph = ({ activeSector, onSectorHover }) => {
 
     return () => {
       window.removeEventListener('resize', resize);
+      canvas.removeEventListener('mousemove', handleMouseMove);
+      canvas.removeEventListener('click', handleClick);
+      canvas.removeEventListener('mouseleave', handleMouseLeave);
       cancelAnimationFrame(animationId);
     };
-  }, [activeSector]);
+  }, []);
 
   return (
     <div className="relative w-full h-[420px]">
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none"
+        className="absolute inset-0 w-full h-full"
       />
-      {/* Clickable overlay for sector nodes */}
-      <svg viewBox="0 0 800 420" className="absolute inset-0 w-full h-full" style={{ zIndex: 10 }}>
-        {sectorNodes.map((node, index) => (
-          <g key={node.id}>
-            {/* Invisible larger hit area */}
-            <circle
-              cx={node.x}
-              cy={node.y}
-              r="35"
-              fill="transparent"
-              style={{ cursor: 'pointer' }}
-              onMouseEnter={() => onSectorHover(sectors[index]?.id)}
-              onMouseLeave={() => onSectorHover(null)}
-              onClick={() => onSectorHover(sectors[index]?.id)}
-            />
-            {/* Label */}
-            <text
-              x={node.x}
-              y={node.y + 50}
-              textAnchor="middle"
-              fill={activeSector === sectors[index]?.id ? node.color : '#9CA3AF'}
-              fontSize="14"
-              fontWeight={activeSector === sectors[index]?.id ? 'bold' : 'normal'}
-              style={{ transition: 'all 0.3s' }}
-            >
-              {node.label}
-            </text>
-          </g>
-        ))}
-      </svg>
     </div>
   );
 };
