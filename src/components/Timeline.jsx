@@ -107,13 +107,13 @@ export default function Timeline() {
           className="text-center mb-20"
         >
           <span className="inline-block px-4 py-1 rounded-full glass text-sm text-neon-purple mb-4">
-            Evolución
+            Ruta de Aprendizaje
           </span>
           <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
-            La <span className="gradient-text">Revolución</span> de la IA
+            Evolución de <span className="gradient-text">Competencias</span>
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            De GANs a sistemas agénticos: el camino que transformó la tecnología
+            De usuario casual a profesional IA en 24 horas: el track completo de AI Business Academy
           </p>
         </motion.div>
 
@@ -139,7 +139,7 @@ export default function Timeline() {
           ))}
         </div>
 
-        {/* Future indicator */}
+        {/* Result indicator */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -148,7 +148,7 @@ export default function Timeline() {
         >
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass animate-pulse-glow">
             <Sparkles className="w-5 h-5 text-neon-cyan" />
-            <span className="text-gray-300">El futuro está siendo construido</span>
+            <span className="text-gray-300">Resultado: capacidad organizacional real, no solo conocimiento</span>
           </div>
         </motion.div>
       </div>

@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { TrendingUp, Shield, Server, DollarSign, Users, AlertTriangle } from 'lucide-react';
+import { AlertTriangle, ShieldAlert, TrendingDown, TrendingUp, Users, GraduationCap } from 'lucide-react';
 import { stats } from '../data/content';
 
 const iconMap = {
-  cyan: TrendingUp,
-  pink: Shield,
-  purple: Server,
-  green: DollarSign,
+  cyan: TrendingDown,
+  pink: ShieldAlert,
+  purple: GraduationCap,
+  green: TrendingUp,
   blue: Users,
   orange: AlertTriangle
 };
@@ -129,13 +129,13 @@ export default function Stats() {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1 rounded-full bg-primary/10 text-sm text-primary font-medium mb-4">
-            Datos de Impacto
+            Por qué ahora
           </span>
           <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
-            Panamá en <span className="gradient-text">Números</span>
+            La Brecha es <span className="gradient-text">Real</span>
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Datos que todo líder debe conocer para tomar decisiones informadas sobre IA
+            El problema no es la tecnología — es la falta de talento capacitado
           </p>
         </motion.div>
 
@@ -153,7 +153,7 @@ export default function Stats() {
           viewport={{ once: true }}
           className="text-center text-sm text-gray-500 mt-12"
         >
-          Fuentes: Estudio Elemente (n=230, Nov 2025), Stanford AI Index 2024, Check Point Security Report
+          Fuentes: MIT GenAI Divide 2025, WalkMe/SAP 2025, WEF Future of Jobs 2025, Coursera/Combine 2025
         </motion.p>
       </div>
     </section>

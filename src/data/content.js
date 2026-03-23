@@ -4,50 +4,51 @@
 export const stats = [
   {
     id: 1,
-    value: 2.3,
-    max: 5.0,
-    label: "Madurez IA Panamá",
-    description: "Nivel actual del ecosistema: ventana de oportunidad para early adopters (n=230, nov 2025)",
-    color: "cyan"
-  },
-  {
-    id: 2,
-    value: 33.9,
-    label: "Inversión Global GenAI",
-    description: "Billones USD en inversión privada en IA Generativa (2024)",
-    prefix: "$",
-    suffix: "B",
-    color: "green"
-  },
-  {
-    id: 3,
     value: 78,
-    label: "Adopción Empresarial",
-    description: "De organizaciones globales ya usan IA en al menos una función de negocio",
-    suffix: "%",
-    color: "blue"
-  },
-  {
-    id: 4,
-    value: 65,
-    label: "Sin Monetizar IA",
-    description: "Empresas que aún no generan ingresos atribuibles a IA — brecha competitiva",
+    label: "Shadow AI",
+    description: "De empleados usan IA sin autorización en sus empresas (WalkMe/SAP 2025)",
     suffix: "%",
     color: "orange"
   },
   {
-    id: 5,
-    value: 46,
-    label: "Sin Gobernanza",
-    description: "Empresas sin procesos claros de supervisión IA — riesgo regulatorio",
+    id: 2,
+    value: 7.5,
+    label: "Con Entrenamiento",
+    description: "Solo este porcentaje de empleados tiene formación extensa en IA (WalkMe/SAP 2025)",
     suffix: "%",
     color: "pink"
   },
   {
+    id: 3,
+    value: 95,
+    label: "Pilotos IA Fracasan",
+    description: "De pilotos de IA empresarial fracasan por falta de capacitación, no de tecnología (MIT 2025)",
+    suffix: "%",
+    color: "cyan"
+  },
+  {
+    id: 4,
+    value: 356,
+    label: "Crecimiento LATAM",
+    description: "Aumento de inscripciones en GenAI en Latinoamérica durante 2025 (Coursera/Combine)",
+    prefix: "+",
+    suffix: "%",
+    color: "green"
+  },
+  {
+    id: 5,
+    value: 3.2,
+    label: "Brecha de Talento",
+    description: "Por cada profesional IA disponible, hay 3.2 posiciones abiertas (WEF 2025)",
+    suffix: ":1",
+    color: "blue"
+  },
+  {
     id: 6,
-    value: 4,
-    label: "Demos en Vivo",
-    description: "Casos prácticos interactivos que verás durante el webinar",
+    value: 24,
+    label: "Horas del Programa",
+    description: "3 cursos progresivos: Fundamentos + Prompting + Agentes. De usuario casual a profesional IA.",
+    suffix: "h",
     color: "purple"
   }
 ];
@@ -156,51 +157,51 @@ export const modules = [
 
 export const timeline = [
   {
-    year: 2014,
-    title: "GANs",
-    subtitle: "Redes Generativas Adversarias",
-    description: "Marco adversarial para generar contenido realista: imágenes, video, audio sintético.",
+    year: "IAG-101",
+    title: "Entender la IA",
+    subtitle: "Fundamentos · 8 horas",
+    description: "Qué es y qué no es IA generativa. Pensamiento crítico, sesgos, limitaciones reales. Evaluar herramientas con criterio.",
     icon: "brain",
     color: "cyan"
   },
   {
-    year: 2017,
-    title: "Transformers",
-    subtitle: "Attention Is All You Need",
-    description: "Arquitectura que habilitó el paralelismo masivo y los modelos fundacionales.",
-    icon: "zap",
+    year: "IAG-101",
+    title: "Ecosistema Multi-herramienta",
+    subtitle: "ChatGPT · Gemini · Claude · Copilot",
+    description: "Trabajo práctico con múltiples plataformas. No dependes de un solo proveedor. Texto, imagen, documentos.",
+    icon: "layers",
     color: "purple"
   },
   {
-    year: 2020,
-    title: "GPT-3",
-    subtitle: "175B Parámetros",
-    description: "Escala masiva + few-shot learning. Primer modelo capaz de seguir instrucciones complejas.",
+    year: "IAG-102",
+    title: "Prompting Efectivo",
+    subtitle: "Ingeniería de Prompts · 8 horas",
+    description: "Zero-shot, Few-shot, Chain-of-Thought, Role Prompting. Diseñar instrucciones que producen resultados consistentes.",
+    icon: "zap",
+    color: "green"
+  },
+  {
+    year: "IAG-102",
+    title: "Prompting Avanzado",
+    subtitle: "Evaluación y Tareas Complejas",
+    description: "Documentos largos, análisis multi-paso, evaluación de outputs. Biblioteca personal de prompts optimizados.",
     icon: "sparkles",
     color: "pink"
   },
   {
-    year: 2022,
-    title: "ChatGPT",
-    subtitle: "IA Conversacional Masiva",
-    description: "100M de usuarios en 2 meses. Normalizó el uso de LLMs en empresas y vida cotidiana.",
-    icon: "message-circle",
-    color: "green"
-  },
-  {
-    year: 2024,
-    title: "Era Multimodal",
-    subtitle: "Texto + Imagen + Audio + Video",
-    description: "GPT-4o, Gemini, Claude 3: modelos que procesan y generan múltiples modalidades.",
-    icon: "layers",
+    year: "IAG-103",
+    title: "Agentes y RAG",
+    subtitle: "Asistentes Inteligentes · 8 horas",
+    description: "Construir agentes autónomos. RAG para conectar IA con tus documentos internos. Custom GPTs y Claude Projects.",
+    icon: "bot",
     color: "blue"
   },
   {
-    year: 2026,
-    title: "IA Agéntica",
-    subtitle: "Sistemas que Ejecutan",
-    description: "De chatbots a agentes autónomos que planifican, deciden y actúan con herramientas.",
-    icon: "bot",
+    year: "IAG-103",
+    title: "Integración y Gobernanza",
+    subtitle: "Automatización + Compliance",
+    description: "Integrar agentes con Zapier, CRM y workflows. Gobernanza, evaluación de riesgos y entregable: prototipo funcional.",
+    icon: "message-circle",
     color: "orange"
   }
 ];
